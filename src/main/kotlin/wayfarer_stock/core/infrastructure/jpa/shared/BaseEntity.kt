@@ -1,4 +1,4 @@
-package wayfarer_stock.common.entity
+package wayfarer_stock.core.infrastructure.jpa.shared
 
 import jakarta.persistence.Column
 import jakarta.persistence.MappedSuperclass
