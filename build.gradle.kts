@@ -30,6 +30,8 @@ dependencies {
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     implementation("io.minio:minio:8.5.17")
 
+    // swagger
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.1")
 
     implementation("org.springframework.boot:spring-boot-starter-validation")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
