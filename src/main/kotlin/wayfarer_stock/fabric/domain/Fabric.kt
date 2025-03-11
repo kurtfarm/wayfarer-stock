@@ -1,8 +1,10 @@
 package wayfarer_stock.fabric.domain
 
 import jakarta.persistence.Column
+import jakarta.persistence.Embeddable
 import jakarta.persistence.Id
 
+@Embeddable
 class Fabric(
     @Id
     @Column(name = "fabric_id")
