@@ -2,15 +2,17 @@ package wayfarer_stock.fabric.domain.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
-import jakarta.persistence.Id
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 
 @Embeddable
 class Fabric(
-    @Column(name = "fabric_id")
-    val fabricId: Long,
+    @Column(name = "fabric_code")
+    val fabricCode: Long,
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "fabric_type")
-    var fabricType: String, //TODO: ENUM으로 정의하는 게 나으려나?
+    var fabricType: FabricType,
 
     @Column(name = "width", nullable = false)
     var width: Long,
