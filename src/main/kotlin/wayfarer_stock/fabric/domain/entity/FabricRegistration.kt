@@ -20,7 +20,7 @@ class FabricRegistration(
     @Column(name = "registration_date", nullable = false)
     var registrationDate: LocalDate,
 
-    @Column(name = "expected_arrivcal_date", nullable = false)
+    @Column(name = "expected_arrival_date", nullable = false)
     var expectedArrivalDate: LocalDate,
 
     @Column(name = "orderer_id", nullable = false)
