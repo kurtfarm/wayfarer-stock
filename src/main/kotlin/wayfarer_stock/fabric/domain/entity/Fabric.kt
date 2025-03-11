@@ -6,7 +6,6 @@ import jakarta.persistence.Id
 
 @Embeddable
 class Fabric(
-    @Id
     @Column(name = "fabric_id")
     val fabricId: Long,
 
