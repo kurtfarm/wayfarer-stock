@@ -15,7 +15,7 @@ import java.time.LocalDate
 class FabricRegistration(
     @Id
     @Column(name = "id")
-    val id: Long,
+    val id: Long = 0L,
 
     @Column(name = "registration_date", nullable = false)
     var registrationDate: LocalDate,
@@ -29,10 +29,20 @@ class FabricRegistration(
     @Column(name = "customer_id", nullable = false)
     var customerId: Long,
 
+    @Column(name = "fabric_code")
+    val fabricCode: String,
+
     @Embedded
     var fabric: Fabric,
 
     @Column(name = "comment", nullable = true)
     var comment: String?,
 ) : BaseEntity() {
+
+    private fun createFabricCode(): String {
+        val registrationYear = registrationDate.year % 100
+        val subCode = fabric.generateSubCode()
+
+        return "$registrationYear$subCode"
+    }
 }

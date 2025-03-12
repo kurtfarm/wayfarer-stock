@@ -7,8 +7,6 @@ import jakarta.persistence.Enumerated
 
 @Embeddable
 class Fabric(
-    @Column(name = "fabric_code")
-    val fabricCode: Long,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "fabric_type")
@@ -25,4 +23,12 @@ class Fabric(
 
     @Column(name = "quantity", nullable = false)
     var quantity: Int,
-)
+) {
+    fun generateSubCode(): String {
+        val typeCode = fabricType.code
+        val thicknessCode = String.format("%03d", thickness.toInt())
+        val widthCode = String.format("%04d", width.toInt())
+
+        return "$typeCode$thicknessCode$widthCode"
+    }
+}
