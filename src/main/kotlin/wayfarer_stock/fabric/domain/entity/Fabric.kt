@@ -9,7 +9,7 @@ import jakarta.persistence.Enumerated
 class Fabric(
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "fabric_type")
+    @Column(name = "fabric_type", nullable = false)
     var fabricType: FabricType,
 
     @Column(name = "width", nullable = false)
@@ -24,11 +24,4 @@ class Fabric(
     @Column(name = "quantity", nullable = false)
     var quantity: Int,
 ) {
-    fun generateSubCode(): String {
-        val typeCode = fabricType.code
-        val thicknessCode = String.format("%03d", thickness.toInt())
-        val widthCode = String.format("%04d", width.toInt())
-
-        return "$typeCode$thicknessCode$widthCode"
-    }
 }

@@ -29,8 +29,8 @@ class FabricRegistration(
     @Column(name = "customer_id", nullable = false)
     var customerId: Long,
 
-    @Column(name = "fabric_code")
-    val fabricCode: String,
+    @Column(name = "code_id", nullable = false)
+    val codeId: Long,
 
     @Embedded
     var fabric: Fabric,
@@ -38,11 +38,4 @@ class FabricRegistration(
     @Column(name = "comment", nullable = true)
     var comment: String?,
 ) : BaseEntity() {
-
-    private fun createFabricCode(): String {
-        val registrationYear = registrationDate.year % 100
-        val subCode = fabric.generateSubCode()
-
-        return "$registrationYear$subCode"
-    }
 }
