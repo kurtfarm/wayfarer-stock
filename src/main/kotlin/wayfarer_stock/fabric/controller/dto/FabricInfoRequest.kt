@@ -7,7 +7,6 @@ data class FabricInfoRequest (
     var expectedArrivalDate: LocalDate,
     var ordererName: String,
     var customerName: String,
-    val codeId: Long,
     var fabricTypeName: String,
     var width: Long,
     var length: Double,
