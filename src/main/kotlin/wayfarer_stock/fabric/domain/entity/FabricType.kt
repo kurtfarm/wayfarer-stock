@@ -28,9 +28,5 @@ enum class FabricType(val code: String, val description: String) {
         fun from(typeName: String): FabricType {
             return entries.firstOrNull { it.name == typeName } ?: DIRECT_INPUT
         }
-
-        fun createTypeCode(typeName: String): String {
-            return entries.firstOrNull { it.name == typeName }?.code ?: DIRECT_INPUT.code
-        }
     }
 }

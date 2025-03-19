@@ -6,6 +6,7 @@ import wayfarer_stock.fabric.application.dto.FabricCodeRequest
 import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 import wayfarer_stock.fabric.domain.service.FabricInfoService
 import wayfarer_stock.fabric.controller.dto.FabricInfoRequest
+import wayfarer_stock.fabric.domain.entity.FabricType
 
 @Service
 class FabricInfoFacade(
@@ -29,8 +30,8 @@ class FabricInfoFacade(
     }
 
     private fun createCodeId(fabricInfoRequest: FabricInfoRequest): Long {
-        val fabricTypeCode = fabricInfoService.createTypeCode(fabricInfoRequest.fabricTypeName);
-        val fabricCodeRequest = FabricCodeRequest.of(fabricInfoRequest, fabricTypeCode);
+        val fabricType = FabricType.from(fabricInfoRequest.fabricTypeName)
+        val fabricCodeRequest = FabricCodeRequest.of(fabricInfoRequest, fabricType.code);
         return 1L // codeSdk.createFabricCode(fabricCodeRequest)
     }
 }

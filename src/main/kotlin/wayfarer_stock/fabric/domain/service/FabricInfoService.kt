@@ -16,8 +16,4 @@ class FabricInfoService(
         val fabricInfo = FabricInfo.from(fabricInfoCreateRequest)
         fabricInfoRepository.save(fabricInfo)
     }
-
-    fun createTypeCode(typeName: String): String {
-        return FabricType.createTypeCode(typeName)
-    }
 }
