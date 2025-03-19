@@ -12,7 +12,7 @@ class FabricInfoService(
     private val fabricInfoRepository: FabricInfoRepository,
 ) {
     @Transactional
-    fun create(fabricInfoCreateRequest: FabricInfoCreateRequest) {
+    fun createFabricInfo(fabricInfoCreateRequest: FabricInfoCreateRequest) {
         val fabricInfo = FabricInfo.from(fabricInfoCreateRequest)
         fabricInfoRepository.save(fabricInfo)
     }

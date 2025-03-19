@@ -12,12 +12,12 @@ class FabricInfoFacade(
     private val fabricInfoService: FabricInfoService,
 ) {
     @Transactional
-    fun create(fabricInfoRequest: FabricInfoRequest) {
+    fun registerFabric(fabricInfoRequest: FabricInfoRequest) {
         val ordererId: Long = getOrdererId(fabricInfoRequest.ordererName)
         val customerId: Long = getCustomerId(fabricInfoRequest.customerName)
         val codeId: Long = createCodeId(fabricInfoRequest)
         val fabricInfoCreateRequest = FabricInfoCreateRequest.of(fabricInfoRequest, ordererId, customerId, codeId)
-        fabricInfoService.create(fabricInfoCreateRequest)
+        fabricInfoService.createFabricInfo(fabricInfoCreateRequest)
     }
 
     private fun getOrdererId(ordererName: String): Long {
