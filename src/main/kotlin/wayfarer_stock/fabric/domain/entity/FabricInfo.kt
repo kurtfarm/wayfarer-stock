@@ -11,8 +11,8 @@ import java.time.LocalDate
 
 @AggregateRoot
 @Entity
-@Table(name = "fabric_registration")
-class FabricRegistration(
+@Table(name = "fabric_info")
+class FabricInfo(
     @Id
     @Column(name = "id")
     val id: Long = 0L,
