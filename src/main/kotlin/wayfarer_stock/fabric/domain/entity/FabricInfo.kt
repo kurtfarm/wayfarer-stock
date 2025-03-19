@@ -6,6 +6,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import wayfarer_stock.core.infrastructure.jpa.shared.BaseEntity
+import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 import wayfarer_stock.fabric.core.AggregateRoot
 import java.time.LocalDate
 
@@ -38,4 +39,18 @@ class FabricInfo(
     @Column(name = "comment", nullable = true)
     var comment: String?,
 ) : BaseEntity() {
+    companion object {
+        fun from(fabricInfoCreateRequest: FabricInfoCreateRequest): FabricInfo {
+            return FabricInfo(
+                registrationDate = fabricInfoCreateRequest.registrationDate,
+                expectedArrivalDate = fabricInfoCreateRequest.expectedArrivalDate,
+                ordererId = fabricInfoCreateRequest.ordererId,
+                customerId = fabricInfoCreateRequest.customerId,
+                codeId = fabricInfoCreateRequest.codeId,
+                fabric = Fabric.from(fabricInfoCreateRequest),
+                comment = fabricInfoCreateRequest.comment,
+            )
+
+        }
+    }
 }

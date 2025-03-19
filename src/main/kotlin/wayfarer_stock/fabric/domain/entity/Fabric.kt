@@ -4,6 +4,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 
 @Embeddable
 class Fabric(
@@ -24,4 +25,15 @@ class Fabric(
     @Column(name = "quantity", nullable = false)
     var quantity: Int,
 ) {
+    companion object {
+        fun from(fabricInfoCreateRequest: FabricInfoCreateRequest): Fabric {
+            return Fabric(
+                fabricType = FabricType.from(fabricInfoCreateRequest.fabricTypeName),
+                width = fabricInfoCreateRequest.width,
+                length = fabricInfoCreateRequest.length,
+                thickness = fabricInfoCreateRequest.thickness,
+                quantity = fabricInfoCreateRequest.quantity
+            )
+        }
+    }
 }
