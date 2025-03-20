@@ -4,17 +4,17 @@ import wayfarer_stock.fabric.controller.dto.FabricInfoRequest
 import java.time.LocalDate
 
 data class FabricInfoCreateRequest(
-    var registrationDate: LocalDate,
-    var expectedArrivalDate: LocalDate,
+    val registrationDate: LocalDate,
+    val expectedArrivalDate: LocalDate,
     val ordererId: Long,
     val customerId: Long,
     val codeId: Long,
-    var fabricTypeName: String,
-    var width: Long,
-    var length: Double,
-    var thickness: Double,
-    var quantity: Int,
-    var comment: String?,
+    val fabricTypeName: String,
+    val width: Long,
+    val length: Double,
+    val thickness: Double,
+    val quantity: Int,
+    val comment: String?,
 ) {
     companion object {
         fun of(

@@ -3,14 +3,14 @@ package wayfarer_stock.fabric.controller.dto
 import java.time.LocalDate
 
 data class FabricInfoRequest (
-    var registrationDate: LocalDate,
-    var expectedArrivalDate: LocalDate,
-    var ordererName: String,
-    var customerName: String,
-    var fabricTypeName: String,
-    var width: Long,
-    var length: Double,
-    var thickness: Double,
-    var quantity: Int,
-    var comment: String?,
+    val registrationDate: LocalDate,
+    val expectedArrivalDate: LocalDate,
+    val ordererName: String,
+    val customerName: String,
+    val fabricTypeName: String,
+    val width: Long,
+    val length: Double,
+    val thickness: Double,
+    val quantity: Int,
+    val comment: String?,
 )
