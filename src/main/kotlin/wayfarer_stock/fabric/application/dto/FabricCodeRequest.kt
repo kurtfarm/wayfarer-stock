@@ -1,21 +1,20 @@
 package wayfarer_stock.fabric.application.dto
 
 import wayfarer_stock.fabric.controller.dto.FabricInfoRequest
-import java.time.LocalDate
 
 data class FabricCodeRequest(
-    val registrationDate: LocalDate,
+    val registrationDate: String,
     val fabricTypeCode: String,
-    val width: Long,
-    val length: Double,
+    val widthCode: String,
+    val lengthCode: String,
 ) {
     companion object {
         fun of(fabricInfoRequest: FabricInfoRequest, fabricTypeCode: String): FabricCodeRequest {
             return FabricCodeRequest(
-                registrationDate = fabricInfoRequest.registrationDate,
+                registrationDate = fabricInfoRequest.registrationDate.year.toString().takeLast(2),
                 fabricTypeCode = fabricTypeCode,
-                width = fabricInfoRequest.width,
-                length = fabricInfoRequest.length,
+                widthCode = fabricInfoRequest.width.toString().padStart(3, '0'),
+                lengthCode = fabricInfoRequest.length.toInt().toString().padStart(4, '0'),
             )
         }
     }
