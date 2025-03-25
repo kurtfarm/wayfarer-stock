@@ -1,6 +1,6 @@
 package wayfarer_stock.fabric.application.dto
 
-import wayfarer_stock.fabric.controller.dto.FabricInfoRequest
+import java.time.LocalDate
 
 data class FabricCodeRequest(
     val registrationDate: String,
@@ -9,12 +9,12 @@ data class FabricCodeRequest(
     val lengthCode: String,
 ) {
     companion object {
-        fun of(fabricInfoRequest: FabricInfoRequest, fabricTypeCode: String): FabricCodeRequest {
+        fun of(registrationDate: LocalDate, fabricTypeCode: String, width: Long, length: Double): FabricCodeRequest {
             return FabricCodeRequest(
-                registrationDate = fabricInfoRequest.registrationDate.year.toString().takeLast(2),
+                registrationDate = registrationDate.year.toString().takeLast(2),
                 fabricTypeCode = fabricTypeCode,
-                widthCode = fabricInfoRequest.width.toString().padStart(3, '0'),
-                lengthCode = fabricInfoRequest.length.toInt().toString().padStart(4, '0'),
+                widthCode = width.toString().padStart(3, '0'),
+                lengthCode = length.toInt().toString().padStart(4, '0'),
             )
         }
     }

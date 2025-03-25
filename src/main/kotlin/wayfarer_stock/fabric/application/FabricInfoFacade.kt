@@ -29,7 +29,12 @@ class FabricInfoFacade(
 
     private fun getCodeId(fabricInfoRequest: FabricInfoRequest): Long {
         val fabricType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName)
-        val fabricCodeRequest = FabricCodeRequest.of(fabricInfoRequest, fabricType.code);
+        val fabricCodeRequest = FabricCodeRequest.of(
+            fabricInfoRequest.registrationDate,
+            fabricType.code,
+            fabricInfoRequest.width,
+            fabricInfoRequest.length
+        );
         val fabricCode = fabricInfoService.createFabricCode(fabricCodeRequest);
         return 1L // codeSdk.createFabricCode(fabricCode)
     }
