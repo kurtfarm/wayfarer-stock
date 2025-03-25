@@ -43,7 +43,7 @@ class FabricInfo(
     var comment: String?,
 ) : BaseEntity() {
     companion object {
-        fun from(fabricInfoCreateRequest: FabricInfoCreateRequest): FabricInfo {
+        fun of(fabricInfoCreateRequest: FabricInfoCreateRequest): FabricInfo {
             return FabricInfo(
                 registrationDate = fabricInfoCreateRequest.registrationDate,
                 expectedArrivalDate = fabricInfoCreateRequest.expectedArrivalDate,
@@ -53,7 +53,6 @@ class FabricInfo(
                 fabric = Fabric.from(fabricInfoCreateRequest),
                 comment = fabricInfoCreateRequest.comment,
             )
-
         }
     }
 }

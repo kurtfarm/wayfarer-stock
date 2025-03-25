@@ -28,7 +28,7 @@ class Fabric(
     companion object {
         fun from(fabricInfoCreateRequest: FabricInfoCreateRequest): Fabric {
             return Fabric(
-                fabricType = FabricType.from(fabricInfoCreateRequest.fabricTypeName),
+                fabricType = FabricType.getByTypeName(fabricInfoCreateRequest.fabricTypeName),
                 width = fabricInfoCreateRequest.width,
                 length = fabricInfoCreateRequest.length,
                 thickness = fabricInfoCreateRequest.thickness,

@@ -25,7 +25,7 @@ enum class FabricType(val code: String, val description: String) {
     DIRECT_INPUT("22", "직접입력");
 
     companion object {
-        fun from(typeName: String): FabricType {
+        fun getByTypeName(typeName: String): FabricType {
             return entries.firstOrNull { it.name == typeName } ?: DIRECT_INPUT
         }
     }

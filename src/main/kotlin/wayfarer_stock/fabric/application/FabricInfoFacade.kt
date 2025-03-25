@@ -1,18 +1,16 @@
 package wayfarer_stock.fabric.application
 
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import wayfarer_stock.fabric.application.dto.FabricCodeRequest
 import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
-import wayfarer_stock.fabric.domain.service.FabricInfoService
 import wayfarer_stock.fabric.controller.dto.FabricInfoRequest
 import wayfarer_stock.fabric.domain.entity.FabricType
+import wayfarer_stock.fabric.domain.service.FabricInfoService
 
 @Service
 class FabricInfoFacade(
     private val fabricInfoService: FabricInfoService,
 ) {
-    @Transactional
     fun registerFabric(fabricInfoRequest: FabricInfoRequest) {
         val ordererId: Long = getOrdererId(fabricInfoRequest.ordererName)
         val customerId: Long = getCustomerId(fabricInfoRequest.customerName)
@@ -30,7 +28,7 @@ class FabricInfoFacade(
     }
 
     private fun createCodeId(fabricInfoRequest: FabricInfoRequest): Long {
-        val fabricType = FabricType.from(fabricInfoRequest.fabricTypeName)
+        val fabricType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName)
         val fabricCodeRequest = FabricCodeRequest.of(fabricInfoRequest, fabricType.code);
         return 1L // codeSdk.createFabricCode(fabricCodeRequest)
     }
