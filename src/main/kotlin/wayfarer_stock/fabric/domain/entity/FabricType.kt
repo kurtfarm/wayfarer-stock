@@ -23,4 +23,10 @@ enum class FabricType(val code: String, val description: String) {
     CPR3("20", "CPR3"),
     CPR4("21", "CPR4"),
     DIRECT_INPUT("22", "직접입력");
+
+    companion object {
+        fun getByTypeName(typeName: String): FabricType {
+            return entries.firstOrNull { it.name == typeName } ?: DIRECT_INPUT
+        }
+    }
 }

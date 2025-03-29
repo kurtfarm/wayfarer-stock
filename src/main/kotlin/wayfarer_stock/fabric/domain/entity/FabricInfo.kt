@@ -3,17 +3,21 @@ package wayfarer_stock.fabric.domain.entity
 import jakarta.persistence.Column
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import wayfarer_stock.core.infrastructure.jpa.shared.BaseEntity
+import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 import wayfarer_stock.fabric.core.AggregateRoot
 import java.time.LocalDate
 
 @AggregateRoot
 @Entity
-@Table(name = "fabric_registration")
-class FabricRegistration(
+@Table(name = "fabric_info")
+class FabricInfo(
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     val id: Long = 0L,
 
@@ -38,4 +42,17 @@ class FabricRegistration(
     @Column(name = "comment", nullable = true)
     var comment: String?,
 ) : BaseEntity() {
+    companion object {
+        fun of(fabricInfoCreateRequest: FabricInfoCreateRequest): FabricInfo {
+            return FabricInfo(
+                registrationDate = fabricInfoCreateRequest.registrationDate,
+                expectedArrivalDate = fabricInfoCreateRequest.expectedArrivalDate,
+                ordererId = fabricInfoCreateRequest.ordererId,
+                customerId = fabricInfoCreateRequest.customerId,
+                codeId = fabricInfoCreateRequest.codeId,
+                fabric = Fabric.from(fabricInfoCreateRequest),
+                comment = fabricInfoCreateRequest.comment,
+            )
+        }
+    }
 }
