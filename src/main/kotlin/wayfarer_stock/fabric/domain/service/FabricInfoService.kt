@@ -23,8 +23,10 @@ class FabricInfoService(
                 fabricCodeRequest.lengthCode
     }
 
+    @Transactional
     fun updateFabricInfo(id: Long, fabricInfoCreateRequest: FabricInfoCreateRequest) {
-
+        val fabricInfo = getFabricInfo(id)
+        fabricInfo.update(fabricInfoCreateRequest)
     }
 
     fun getFabricInfo(id: Long): FabricInfo {

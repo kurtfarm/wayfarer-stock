@@ -34,7 +34,7 @@ class FabricInfo(
     var customerId: Long,
 
     @Column(name = "code_id", nullable = false)
-    val codeId: Long,
+    var codeId: Long,
 
     @Embedded
     var fabric: Fabric,
@@ -54,5 +54,15 @@ class FabricInfo(
                 comment = fabricInfoCreateRequest.comment,
             )
         }
+    }
+
+    fun update(fabricInfoCreateRequest: FabricInfoCreateRequest) {
+        this.registrationDate = fabricInfoCreateRequest.registrationDate
+        this.expectedArrivalDate = fabricInfoCreateRequest.expectedArrivalDate
+        this.ordererId = fabricInfoCreateRequest.ordererId
+        this.customerId = fabricInfoCreateRequest.customerId
+        this.codeId = fabricInfoCreateRequest.codeId
+        this.fabric = Fabric.from(fabricInfoCreateRequest)
+        this.comment = fabricInfoCreateRequest.comment
     }
 }
