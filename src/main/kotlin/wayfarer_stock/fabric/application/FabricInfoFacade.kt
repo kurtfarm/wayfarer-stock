@@ -19,6 +19,13 @@ class FabricInfoFacade(
         fabricInfoService.createFabricInfo(fabricInfoCreateRequest)
     }
 
+    fun updateFabric(id: Long, fabricInfoRequest: FabricInfoRequest){
+        val fabricInfo =  fabricInfoService.getFabricInfo(id)
+        val ordererId: Long = getOrdererId(fabricInfoRequest.ordererName)
+        val customerId: Long = getCustomerId(fabricInfoRequest.customerName)
+        updateFabricCode(fabricInfo.codeId, fabricInfoRequest);
+    }
+
     private fun getOrdererId(ordererName: String): Long {
         return 1L // orderSdk.findIdByOrdererName(ordererName).orElseThrow { BadRequestException("존재하지 않는 발주처입니다: $ordererName") }
     }
@@ -27,7 +34,7 @@ class FabricInfoFacade(
         return 1L // customerSdk.findIdByCustomerName(fabricInfoRequest.customerName).orElseThrow { BadRequestException("존재하지 않는 거래처입니다: $customerName") }
     }
 
-    private fun getCodeId(fabricInfoRequest: FabricInfoRequest): Long {
+    private fun createFabricCode(fabricInfoRequest: FabricInfoRequest): String{
         val fabricType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName)
         val fabricCodeRequest = FabricCodeRequest.of(
             fabricInfoRequest.registrationDate,
@@ -35,7 +42,16 @@ class FabricInfoFacade(
             fabricInfoRequest.width,
             fabricInfoRequest.length
         );
-        val fabricCode = fabricInfoService.createFabricCode(fabricCodeRequest);
+        return fabricInfoService.createFabricCode(fabricCodeRequest);
+    }
+
+    private fun updateFabricCode(codeId: Long, fabricInfoRequest: FabricInfoRequest){
+        val fabricCode = createFabricCode(fabricInfoRequest)
+        // codeSdk.updateFabric(codeId, fabricCode)
+    }
+
+    private fun getCodeId(fabricInfoRequest: FabricInfoRequest): Long {
+        val fabricCode = createFabricCode(fabricInfoRequest)
         return 1L // codeSdk.createFabricCode(fabricCode).orElseThrow { BadRequestException("원단 코드 생성에 실패했습니다.") }
     }
 }

@@ -22,4 +22,8 @@ class FabricInfoService(
                 fabricCodeRequest.widthCode +
                 fabricCodeRequest.lengthCode
     }
+
+    fun getFabricInfo(id: Long): FabricInfo{
+        return fabricInfoRepository.findById(id).orElseThrow()
+    }
 }
