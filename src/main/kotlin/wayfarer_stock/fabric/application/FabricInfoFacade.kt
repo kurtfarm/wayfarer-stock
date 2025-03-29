@@ -12,18 +12,20 @@ class FabricInfoFacade(
     private val fabricInfoService: FabricInfoService,
 ) {
     fun registerFabric(fabricInfoRequest: FabricInfoRequest) {
-        val ordererId: Long = getOrdererId(fabricInfoRequest.ordererName)
-        val customerId: Long = getCustomerId(fabricInfoRequest.customerName)
-        val codeId: Long = getCodeId(fabricInfoRequest)
-        val fabricInfoCreateRequest = FabricInfoCreateRequest.of(fabricInfoRequest, ordererId, customerId, codeId)
+        val fabricInfoCreateRequest = convertToCreateRequest(fabricInfoRequest)
         fabricInfoService.createFabricInfo(fabricInfoCreateRequest)
     }
 
-    fun updateFabric(id: Long, fabricInfoRequest: FabricInfoRequest){
-        val fabricInfo =  fabricInfoService.getFabricInfo(id)
-        val ordererId: Long = getOrdererId(fabricInfoRequest.ordererName)
-        val customerId: Long = getCustomerId(fabricInfoRequest.customerName)
-        updateFabricCode(fabricInfo.codeId, fabricInfoRequest);
+    fun updateFabric(id: Long, fabricInfoRequest: FabricInfoRequest) {
+        val fabricInfoCreateRequest = convertToCreateRequest(fabricInfoRequest)
+        fabricInfoService.updateFabricInfo(id, fabricInfoCreateRequest)
+    }
+
+    private fun convertToCreateRequest(fabricInfoRequest: FabricInfoRequest): FabricInfoCreateRequest {
+        val ordererId = getOrdererId(fabricInfoRequest.ordererName)
+        val customerId = getCustomerId(fabricInfoRequest.customerName)
+        val codeId = getCodeId(fabricInfoRequest)
+        return FabricInfoCreateRequest.of(fabricInfoRequest, ordererId, customerId, codeId)
     }
 
     private fun getOrdererId(ordererName: String): Long {
@@ -34,7 +36,7 @@ class FabricInfoFacade(
         return 1L // customerSdk.findIdByCustomerName(fabricInfoRequest.customerName).orElseThrow { BadRequestException("존재하지 않는 거래처입니다: $customerName") }
     }
 
-    private fun createFabricCode(fabricInfoRequest: FabricInfoRequest): String{
+    private fun createFabricCode(fabricInfoRequest: FabricInfoRequest): String {
         val fabricType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName)
         val fabricCodeRequest = FabricCodeRequest.of(
             fabricInfoRequest.registrationDate,
@@ -45,10 +47,10 @@ class FabricInfoFacade(
         return fabricInfoService.createFabricCode(fabricCodeRequest);
     }
 
-    private fun updateFabricCode(codeId: Long, fabricInfoRequest: FabricInfoRequest){
-        val fabricCode = createFabricCode(fabricInfoRequest)
-        // codeSdk.updateFabric(codeId, fabricCode)
-    }
+//    private fun updateFabricCode(codeId: Long, fabricInfoRequest: FabricInfoRequest){
+//        val fabricCode = createFabricCode(fabricInfoRequest)
+//        // codeSdk.updateFabric(codeId, fabricCode)
+//    }
 
     private fun getCodeId(fabricInfoRequest: FabricInfoRequest): Long {
         val fabricCode = createFabricCode(fabricInfoRequest)

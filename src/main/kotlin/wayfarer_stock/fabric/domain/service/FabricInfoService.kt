@@ -23,7 +23,11 @@ class FabricInfoService(
                 fabricCodeRequest.lengthCode
     }
 
-    fun getFabricInfo(id: Long): FabricInfo{
+    fun updateFabricInfo(id: Long, fabricInfoCreateRequest: FabricInfoCreateRequest) {
+
+    }
+
+    fun getFabricInfo(id: Long): FabricInfo {
         return fabricInfoRepository.findById(id).orElseThrow()
     }
 }
