@@ -9,7 +9,12 @@ data class FabricCodeRequest(
     val lengthCode: String,
 ) {
     companion object {
-        fun of(registrationDate: LocalDate, fabricTypeCode: String, width: Long, length: Double): FabricCodeRequest {
+        fun of(
+            registrationDate: LocalDate,
+            fabricTypeCode: String,
+            width: Long,
+            length: Double
+        ): FabricCodeRequest {
             return FabricCodeRequest(
                 registrationDate = registrationDate.year.toString().takeLast(2),
                 fabricTypeCode = fabricTypeCode,
