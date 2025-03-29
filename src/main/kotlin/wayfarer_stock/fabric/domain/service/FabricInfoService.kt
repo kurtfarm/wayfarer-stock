@@ -29,7 +29,7 @@ class FabricInfoService(
         fabricInfo.update(fabricInfoCreateRequest)
     }
 
-    fun getFabricInfo(id: Long): FabricInfo {
-        return fabricInfoRepository.findById(id).orElseThrow()
+    private fun getFabricInfo(id: Long): FabricInfo {
+        return fabricInfoRepository.findById(id).orElseThrow { IllegalArgumentException("존재하지 않는 원단 정보입니다. id: $id") }
     }
 }
