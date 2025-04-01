@@ -3,6 +3,7 @@ package wayfarer_stock.fabric.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -41,5 +42,17 @@ class FabricController(
         @RequestBody request: FabricInfoRequest
     ) {
         fabricInfoFacade.updateFabric(id, request)
+    }
+
+    @Operation(
+        summary = "원단 삭제",
+        description = "기존의 원단 정보를 삭제한다."
+    )
+    @DeleteMapping("/{id}")
+    fun deleteFabric(
+        @Parameter(description = "삭제할 원단 id")
+        @PathVariable id: Long,
+    ) {
+        fabricInfoFacade.deleteFabric(id)
     }
 }
