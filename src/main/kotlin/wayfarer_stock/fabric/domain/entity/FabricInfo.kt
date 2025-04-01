@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.SQLRestriction
 import wayfarer_stock.core.infrastructure.jpa.shared.BaseEntity
 import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 import wayfarer_stock.fabric.core.AggregateRoot
@@ -14,6 +16,8 @@ import java.time.LocalDate
 
 @AggregateRoot
 @Entity
+@SQLDelete(sql = "UPDATE fabric_info SET is_deleted = true WHERE id = ?")
+@SQLRestriction("is_deleted = false")
 @Table(name = "fabric_info")
 class FabricInfo(
     @Id

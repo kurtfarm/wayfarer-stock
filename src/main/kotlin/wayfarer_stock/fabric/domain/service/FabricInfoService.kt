@@ -32,12 +32,7 @@ class FabricInfoService(
     @Transactional
     fun deleteFabricInfo(id: Long) {
         val fabricInfo = getFabricInfo(id)
-
-        if (fabricInfo.isDeleted) {
-            throw IllegalStateException("이미 삭제된 원단 정보입니다. id: $id")
-        }
-
-        fabricInfo.isDeleted = true;
+        fabricInfoRepository.deleteById(id)
     }
 
     private fun getFabricInfo(id: Long): FabricInfo {
