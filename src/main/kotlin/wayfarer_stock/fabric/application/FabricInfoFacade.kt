@@ -22,7 +22,7 @@ class FabricInfoFacade(
     }
 
     fun deleteFabric(id: Long) {
-        fabricInfoService.deleteFabric(id);
+        fabricInfoService.deleteFabricInfo(id);
     }
 
     private fun convertToCreateRequest(fabricInfoRequest: FabricInfoRequest): FabricInfoCreateRequest {
