@@ -21,6 +21,10 @@ class FabricInfoFacade(
         fabricInfoService.updateFabricInfo(id, fabricInfoCreateRequest)
     }
 
+    fun deleteFabric(id: Long) {
+        fabricInfoService.deleteFabric(id);
+    }
+
     private fun convertToCreateRequest(fabricInfoRequest: FabricInfoRequest): FabricInfoCreateRequest {
         val ordererId = getOrdererId(fabricInfoRequest.ordererName)
         val customerId = getCustomerId(fabricInfoRequest.customerName)
