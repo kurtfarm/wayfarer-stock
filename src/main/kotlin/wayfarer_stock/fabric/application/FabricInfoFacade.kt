@@ -39,10 +39,12 @@ class FabricInfoFacade(
     }
 
     private fun convertToCreateRequest(fabricInfoRequest: FabricInfoRequest): FabricInfoCreateRequest {
-        val ordererId = getOrdererId(fabricInfoRequest.ordererName)
-        val customerId = getCustomerId(fabricInfoRequest.customerName)
-        val codeId = getCodeId(fabricInfoRequest)
-        return FabricInfoCreateRequest.of(fabricInfoRequest, ordererId, customerId, codeId)
+        return FabricInfoCreateRequest.of(
+            fabricInfoRequest,
+            getOrdererId(fabricInfoRequest.ordererName),
+            getCustomerId(fabricInfoRequest.customerName),
+            getCodeId(fabricInfoRequest)
+        )
     }
 
     private fun getOrdererId(ordererName: String): Long {
