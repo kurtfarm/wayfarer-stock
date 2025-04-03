@@ -16,13 +16,6 @@ class FabricInfoService(
         fabricInfoRepository.save(FabricInfo.of(fabricInfoCreateRequest))
     }
 
-    fun createFabricCode(fabricCodeRequest: FabricCodeRequest): String {
-        return fabricCodeRequest.registrationDate +
-                fabricCodeRequest.fabricTypeCode +
-                fabricCodeRequest.widthCode +
-                fabricCodeRequest.lengthCode
-    }
-
     @Transactional
     fun updateFabricInfo(id: Long, fabricInfoCreateRequest: FabricInfoCreateRequest) {
         val fabricInfo = getFabricInfo(id)
@@ -31,7 +24,6 @@ class FabricInfoService(
 
     @Transactional
     fun deleteFabricInfo(id: Long) {
-        val fabricInfo = getFabricInfo(id)
         fabricInfoRepository.deleteById(id)
     }
 
