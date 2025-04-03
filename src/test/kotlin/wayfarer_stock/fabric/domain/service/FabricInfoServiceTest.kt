@@ -1,18 +1,20 @@
 package wayfarer_stock.fabric.domain.service
 
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
-import wayfarer_stock.fabric.application.dto.FabricCodeRequest
+import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
+import wayfarer_stock.fabric.domain.entity.FabricInfo
 import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
 import java.time.LocalDate
-import kotlin.test.Test
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 class FabricInfoServiceTest {
-
     @Mock
     private lateinit var fabricInfoRepository: FabricInfoRepository
 
@@ -20,19 +22,85 @@ class FabricInfoServiceTest {
     private lateinit var fabricInfoService: FabricInfoService
 
     @Test
-    fun `올바른 값이 입력되면 코드가 생성된다`() {
+    fun `원단 정보를 생성한다`() {
         // given
-        val registrationDate: LocalDate = LocalDate.of(2025, 3, 26)
-        val fabricTypeCode: String = "01"
-        val width: Long = 123
-        val length: Double = 1.0
-
-        val fabricCodeRequest = FabricCodeRequest.of(registrationDate, fabricTypeCode, width, length)
+        val request = createFakeRequest()
 
         // when
-        val result = fabricInfoService.createFabricCode(fabricCodeRequest)
+        fabricInfoService.createFabricInfo(request)
 
         // then
-        assertThat(result).isEqualTo("25011230001")
+        verify(fabricInfoRepository).save(argThat { entity ->
+            entity.registrationDate == request.registrationDate &&
+                    entity.expectedArrivalDate == request.expectedArrivalDate &&
+                    entity.ordererId == request.ordererId &&
+                    entity.customerId == request.customerId &&
+                    entity.codeId == request.codeId &&
+                    entity.fabric.fabricType.description == request.fabricTypeName &&
+                    entity.fabric.width == request.width &&
+                    entity.fabric.length == request.length &&
+                    entity.fabric.thickness == request.thickness &&
+                    entity.fabric.quantity == request.quantity &&
+                    entity.comment == request.comment
+        })
+    }
+
+    @Test
+    fun `원단 정보를 수정한다`() {
+        // given
+        val id = 1L
+        val request = createFakeRequest()
+        val mockEntity = mock(FabricInfo::class.java)
+
+        `when`(fabricInfoRepository.findById(id)).thenReturn(Optional.of(mockEntity))
+
+        // when
+        fabricInfoService.updateFabricInfo(id, request)
+
+        // then
+        verify(mockEntity).update(request)
+    }
+
+    @Test
+    fun `존재하지 않는 원단 정보를 불러오면 예외가 발생한다`() {
+        // given
+        val id = 999L
+        val request = createFakeRequest()
+
+        `when`(fabricInfoRepository.findById(id)).thenReturn(Optional.empty())
+
+        // when & then
+        assertThatThrownBy {
+            fabricInfoService.getFabricInfo(id)
+        }.isInstanceOf(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun `원단 정보를 삭제한다`() {
+        // given
+        val id = 1L
+
+        // when
+        fabricInfoService.deleteFabricInfo(id)
+
+        // then
+        verify(fabricInfoRepository).deleteById(id)
+    }
+
+
+    private fun createFakeRequest(): FabricInfoCreateRequest {
+        return FabricInfoCreateRequest(
+            registrationDate = LocalDate.of(2025, 1, 1),
+            expectedArrivalDate = LocalDate.of(2025, 1, 10),
+            ordererId = 1L,
+            customerId = 2L,
+            codeId = 3L,
+            fabricTypeName = "PET",
+            width = 150,
+            length = 200.0,
+            thickness = 0.3,
+            quantity = 500,
+            comment = "테스트용 원단입니다"
+        )
     }
 }
