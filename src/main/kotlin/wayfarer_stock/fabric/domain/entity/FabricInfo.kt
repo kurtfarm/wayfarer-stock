@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.SQLRestriction
 import wayfarer_stock.core.infrastructure.jpa.shared.BaseEntity
 import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 import wayfarer_stock.fabric.core.AggregateRoot
@@ -14,6 +16,8 @@ import java.time.LocalDate
 
 @AggregateRoot
 @Entity
+@SQLDelete(sql = "UPDATE fabric_info SET is_deleted = true WHERE id = ?")
+@SQLRestriction("is_deleted = false")
 @Table(name = "fabric_info")
 class FabricInfo(
     @Id
@@ -34,7 +38,7 @@ class FabricInfo(
     var customerId: Long,
 
     @Column(name = "code_id", nullable = false)
-    val codeId: Long,
+    var codeId: Long,
 
     @Embedded
     var fabric: Fabric,
@@ -54,5 +58,15 @@ class FabricInfo(
                 comment = fabricInfoCreateRequest.comment,
             )
         }
+    }
+
+    fun update(fabricInfoCreateRequest: FabricInfoCreateRequest) {
+        this.registrationDate = fabricInfoCreateRequest.registrationDate
+        this.expectedArrivalDate = fabricInfoCreateRequest.expectedArrivalDate
+        this.ordererId = fabricInfoCreateRequest.ordererId
+        this.customerId = fabricInfoCreateRequest.customerId
+        this.codeId = fabricInfoCreateRequest.codeId
+        this.fabric = Fabric.from(fabricInfoCreateRequest)
+        this.comment = fabricInfoCreateRequest.comment
     }
 }
