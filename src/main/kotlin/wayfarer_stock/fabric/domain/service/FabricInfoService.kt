@@ -2,7 +2,6 @@ package wayfarer_stock.fabric.domain.service
 
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
-import wayfarer_stock.fabric.application.dto.FabricCodeRequest
 import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 import wayfarer_stock.fabric.domain.entity.FabricInfo
 import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
