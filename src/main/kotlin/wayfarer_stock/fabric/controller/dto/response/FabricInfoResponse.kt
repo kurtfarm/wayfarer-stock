@@ -2,7 +2,6 @@ package wayfarer_stock.fabric.controller.dto.response
 
 import wayfarer_stock.core.util.DateFormatUtil
 import wayfarer_stock.fabric.domain.entity.FabricInfo
-import wayfarer_stock.fabric.domain.entity.FabricType
 
 data class FabricInfoResponse(
     val registrationDate: String,

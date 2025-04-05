@@ -4,9 +4,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import wayfarer_stock.fabric.domain.entity.Fabric
 import wayfarer_stock.fabric.domain.entity.FabricInfo
-import wayfarer_stock.fabric.domain.entity.FabricType
 import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
 import java.time.LocalDate
 
