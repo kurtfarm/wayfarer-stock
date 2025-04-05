@@ -7,21 +7,9 @@ import wayfarer_stock.fabric.domain.entity.FabricInfo
 import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
 
 @Service
-class FabricInfoService(
-    private val fabricInfoRepository: FabricInfoRepository,
+class EditFabricInfoService(
+    private val fabricInfoRepository: FabricInfoRepository
 ) {
-    @Transactional
-    fun createFabricInfo(
-        fabricInfoRequest: FabricInfoRequest,
-        ordererId: Long,
-        customerId: Long,
-        codeId: Long,
-    ) {
-        fabricInfoRepository.save(
-            FabricInfo.of(fabricInfoRequest, ordererId, customerId, codeId)
-        )
-    }
-
     @Transactional
     fun updateFabricInfo(
         fabricInfo: FabricInfo,

@@ -14,12 +14,15 @@ import java.time.LocalDate
 import java.util.*
 
 @ExtendWith(MockitoExtension::class)
-class FabricInfoServiceTest {
+class RegisterFabricInfoServiceTest {
     @Mock
     private lateinit var fabricInfoRepository: FabricInfoRepository
 
     @InjectMocks
-    private lateinit var fabricInfoService: FabricInfoService
+    private lateinit var registerFabricInfoService: RegisterFabricInfoService
+
+    @InjectMocks
+    private lateinit var editFabricInfoService: EditFabricInfoService
 
     @InjectMocks
     private lateinit var readFabricInfoService: ReadFabricInfoService
@@ -30,7 +33,7 @@ class FabricInfoServiceTest {
         val request = createFakeRequest()
 
         // when
-        fabricInfoService.createFabricInfo(request, 1L, 1L, 1L)
+        registerFabricInfoService.createFabricInfo(request, 1L, 1L, 1L)
 
         // then
         verify(fabricInfoRepository).save(argThat { entity ->
@@ -55,7 +58,7 @@ class FabricInfoServiceTest {
         val mockEntity = mock(FabricInfo::class.java)
 
         // when
-        fabricInfoService.updateFabricInfo(mockEntity, request, 1L, 1L, 1L)
+        editFabricInfoService.updateFabricInfo(mockEntity, request, 1L, 1L, 1L)
 
         // then
         verify(mockEntity).update(request, 1L, 1L, 1L)
@@ -81,7 +84,7 @@ class FabricInfoServiceTest {
         val id = 1L
 
         // when
-        fabricInfoService.deleteFabricInfo(id)
+        editFabricInfoService.deleteFabricInfo(id)
 
         // then
         verify(fabricInfoRepository).deleteById(id)

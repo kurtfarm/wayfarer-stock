@@ -6,19 +6,21 @@ import wayfarer_stock.core.web.PagingResult
 import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 import wayfarer_stock.fabric.controller.dto.response.FabricInfoListResponse
 import wayfarer_stock.fabric.controller.dto.response.FabricInfoResponse
+import wayfarer_stock.fabric.domain.service.EditFabricInfoService
 import wayfarer_stock.fabric.domain.service.FabricCodeService
-import wayfarer_stock.fabric.domain.service.FabricInfoService
+import wayfarer_stock.fabric.domain.service.RegisterFabricInfoService
 import wayfarer_stock.fabric.domain.service.ReadFabricInfoService
 import java.time.LocalDate
 
 @Service
 class FabricInfoFacade(
-    private val fabricInfoService: FabricInfoService,
-    private val fabricCodeService: FabricCodeService,
+    private val registerFabricInfoService: RegisterFabricInfoService,
+    private val editFabricInfoService: EditFabricInfoService,
     private val readFabricInfoService: ReadFabricInfoService,
+    private val fabricCodeService: FabricCodeService,
 ) {
     fun registerFabric(fabricInfoRequest: FabricInfoRequest) {
-        fabricInfoService.createFabricInfo(
+        registerFabricInfoService.createFabricInfo(
             fabricInfoRequest,
             getOrdererId(fabricInfoRequest.ordererName),
             getCustomerId(fabricInfoRequest.customerName),
@@ -28,7 +30,7 @@ class FabricInfoFacade(
 
     fun updateFabric(id: Long, fabricInfoRequest: FabricInfoRequest) {
         val fabricInfo = readFabricInfoService.getFabricInfo(id);
-        fabricInfoService.updateFabricInfo(
+        editFabricInfoService.updateFabricInfo(
             fabricInfo,
             fabricInfoRequest,
             getOrdererId(fabricInfoRequest.ordererName),
@@ -38,7 +40,7 @@ class FabricInfoFacade(
     }
 
     fun deleteFabric(id: Long) {
-        fabricInfoService.deleteFabricInfo(id);
+        editFabricInfoService.deleteFabricInfo(id);
     }
 
     fun getDetailedFabricInfo(id: Long): FabricInfoResponse {
