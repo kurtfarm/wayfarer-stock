@@ -3,7 +3,6 @@ package wayfarer_stock.fabric.application
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import wayfarer_stock.core.web.PagingResult
-import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 import wayfarer_stock.fabric.controller.dto.response.FabricInfoListResponse
 import wayfarer_stock.fabric.controller.dto.response.FabricInfoResponse
@@ -28,7 +27,6 @@ class FabricInfoFacade(
     }
 
     fun updateFabric(id: Long, fabricInfoRequest: FabricInfoRequest) {
-        val fabricInfoCreateRequest = convertToCreateRequest(fabricInfoRequest)
         val fabricInfo = readFabricInfoService.getFabricInfo(id);
         fabricInfoService.updateFabricInfo(
             fabricInfo,
@@ -97,15 +95,6 @@ class FabricInfoFacade(
             )
         }
         return PagingResult.from(page)
-    }
-
-    private fun convertToCreateRequest(fabricInfoRequest: FabricInfoRequest): FabricInfoCreateRequest {
-        return FabricInfoCreateRequest.of(
-            fabricInfoRequest,
-            getOrdererId(fabricInfoRequest.ordererName),
-            getCustomerId(fabricInfoRequest.customerName),
-            getCodeId(fabricInfoRequest)
-        )
     }
 
     private fun getOrdererId(ordererName: String): Long {

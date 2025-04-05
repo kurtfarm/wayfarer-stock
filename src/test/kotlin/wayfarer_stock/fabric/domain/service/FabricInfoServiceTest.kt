@@ -7,7 +7,6 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
-import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 import wayfarer_stock.fabric.domain.entity.FabricInfo
 import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
@@ -31,15 +30,15 @@ class FabricInfoServiceTest {
         val request = createFakeRequest()
 
         // when
-        fabricInfoService.createFabricInfo(request)
+        fabricInfoService.createFabricInfo(request, 1L, 1L, 1L)
 
         // then
         verify(fabricInfoRepository).save(argThat { entity ->
             entity.registrationDate == request.registrationDate &&
                     entity.expectedArrivalDate == request.expectedArrivalDate &&
-                    entity.ordererId == request.ordererId &&
-                    entity.customerId == request.customerId &&
-                    entity.codeId == request.codeId &&
+                    entity.ordererId == 1L &&
+                    entity.customerId == 1L &&
+                    entity.codeId == 1L &&
                     entity.fabric.fabricType.description == request.fabricTypeName &&
                     entity.fabric.width == request.width &&
                     entity.fabric.length == request.length &&
@@ -56,10 +55,10 @@ class FabricInfoServiceTest {
         val mockEntity = mock(FabricInfo::class.java)
 
         // when
-        fabricInfoService.updateFabricInfo(mockEntity, request)
+        fabricInfoService.updateFabricInfo(mockEntity, request, 1L, 1L, 1L)
 
         // then
-        verify(mockEntity).update(request)
+        verify(mockEntity).update(request, 1L, 1L, 1L)
     }
 
     @Test
@@ -89,13 +88,12 @@ class FabricInfoServiceTest {
     }
 
 
-    private fun createFakeRequest(): FabricInfoCreateRequest {
-        return FabricInfoCreateRequest(
+    private fun createFakeRequest(): FabricInfoRequest {
+        return FabricInfoRequest(
             registrationDate = LocalDate.of(2025, 1, 1),
             expectedArrivalDate = LocalDate.of(2025, 1, 10),
-            ordererId = 1L,
-            customerId = 2L,
-            codeId = 3L,
+            ordererName = "발주처 A",
+            customerName = "고객사 B",
             fabricTypeName = "PET",
             width = 150,
             length = 200.0,
