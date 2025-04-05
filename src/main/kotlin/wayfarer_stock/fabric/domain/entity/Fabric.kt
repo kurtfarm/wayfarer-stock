@@ -13,6 +13,9 @@ class Fabric(
     @Column(name = "fabric_type", nullable = false)
     var fabricType: FabricType,
 
+    @Column(name = "fabric_type_detail", nullable = true)
+    var fabricTypeDetail: String?,
+
     @Column(name = "width", nullable = false)
     var width: Long,
 
@@ -27,8 +30,12 @@ class Fabric(
 ) {
     companion object {
         fun from(fabricInfoCreateRequest: FabricInfoCreateRequest): Fabric {
+            val matchedType = FabricType.getByTypeName(fabricInfoCreateRequest.fabricTypeName)
+            val detail = if (matchedType == FabricType.DIRECT_INPUT) fabricInfoCreateRequest.fabricTypeName else null
+
             return Fabric(
                 fabricType = FabricType.getByTypeName(fabricInfoCreateRequest.fabricTypeName),
+                fabricTypeDetail = detail,
                 width = fabricInfoCreateRequest.width,
                 length = fabricInfoCreateRequest.length,
                 thickness = fabricInfoCreateRequest.thickness,

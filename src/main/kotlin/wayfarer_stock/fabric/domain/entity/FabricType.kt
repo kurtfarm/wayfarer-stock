@@ -22,7 +22,7 @@ enum class FabricType(val code: String, val description: String) {
     CPR2("19", "CPR2"),
     CPR3("20", "CPR3"),
     CPR4("21", "CPR4"),
-    DIRECT_INPUT("22", "직접입력"); // TODO: 직접 입력이 들어왔을 때 해당 값은 어디다가 저장할지
+    DIRECT_INPUT("22", "직접입력");
 
     companion object {
         fun getByTypeName(typeName: String): FabricType {

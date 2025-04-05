@@ -40,6 +40,7 @@ class FabricInfoFacade(
         return FabricInfoResponse.of(
             fabricInfo,
             getOrdererName(fabricInfo.ordererId),
+            readFabricInfoService.getFabricTypeName(fabricInfo.fabric),
             getCustomerName(fabricInfo.customerId),
             getCode(fabricInfo.codeId),
         )
@@ -50,7 +51,8 @@ class FabricInfoFacade(
         val page = readFabricInfoService.getList(pageRequest).map {
             FabricInfoListResponse.of(
                 it,
-                getOrdererName(it.ordererId)
+                readFabricInfoService.getFabricTypeName(it.fabric),
+                getOrdererName(it.ordererId),
             )
         }
         return PagingResult.from(page)
@@ -66,7 +68,11 @@ class FabricInfoFacade(
         val pageRequest = PageRequest.of(page, size)
         val ordererId = getOrdererId(ordererName)
         val page = readFabricInfoService.getListByOrderer(startDate, endDate, ordererId, pageRequest).map {
-            FabricInfoListResponse.of(it, ordererName)
+            FabricInfoListResponse.of(
+                it,
+                readFabricInfoService.getFabricTypeName(it.fabric),
+                ordererName,
+            )
         }
         return PagingResult.from(page)
     }

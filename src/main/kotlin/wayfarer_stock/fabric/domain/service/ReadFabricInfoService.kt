@@ -4,7 +4,9 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import wayfarer_stock.fabric.domain.entity.Fabric
 import wayfarer_stock.fabric.domain.entity.FabricInfo
+import wayfarer_stock.fabric.domain.entity.FabricType
 import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
 import java.time.LocalDate
 
@@ -12,10 +14,6 @@ import java.time.LocalDate
 class ReadFabricInfoService(
     private val fabricInfoRepository: FabricInfoRepository
 ) {
-    fun getFabricInfo(id: Long): FabricInfo {
-        return fabricInfoRepository.findById(id).orElseThrow { IllegalArgumentException("존재하지 않는 원단 정보입니다. id: $id") }
-    }
-
     @Transactional(readOnly = true)
     fun getList(pageable: Pageable): Page<FabricInfo> {
         return fabricInfoRepository.findAllByOrderByIdDesc(pageable)
@@ -29,5 +27,17 @@ class ReadFabricInfoService(
         pageable: Pageable
     ): Page<FabricInfo> {
         return fabricInfoRepository.searchByOrdererAndDate(startDate, endDate, ordererId, pageable)
+    }
+
+    fun getFabricInfo(id: Long): FabricInfo {
+        return fabricInfoRepository.findById(id).orElseThrow { IllegalArgumentException("존재하지 않는 원단 정보입니다. id: $id") }
+    }
+
+    fun getFabricTypeName(fabric: Fabric): String {
+        return if (fabric.fabricType == FabricType.DIRECT_INPUT) {
+            fabric.fabricTypeDetail ?: "직접입력"
+        } else {
+            fabric.fabricType.description
+        }
     }
 }
