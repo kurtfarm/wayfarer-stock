@@ -57,4 +57,22 @@ class ReadFabricController(
         val end = endDate ?: today
         return fabricInfoFacade.getFabricInfoListByOrderer(page, size, start, end, ordererName)
     }
+
+    @Operation(
+        summary = "원단 리스트 검색 (기준: 원단구분)",
+        description = "원단구분을 기준으로 원단 리스트를 검색한다."
+    )
+    @GetMapping(ApiPath.Fabric.READ_FABRIC_BY_TYPE)
+    fun readFabricInfoListByType(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "15") size: Int,
+        @RequestParam(required = false) startDate: LocalDate?,
+        @RequestParam(required = false) endDate: LocalDate?,
+        @RequestParam fabricTypeName: String,
+    ): PagingResult<FabricInfoListResponse> {
+        val today = LocalDate.now()
+        val start = startDate ?: today
+        val end = endDate ?: today
+        return fabricInfoFacade.getFabricInfoListByType(page, size, start, end, fabricTypeName)
+    }
 }

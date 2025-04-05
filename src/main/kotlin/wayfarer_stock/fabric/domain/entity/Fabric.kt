@@ -8,13 +8,12 @@ import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 
 @Embeddable
 class Fabric(
-
     @Enumerated(EnumType.STRING)
     @Column(name = "fabric_type", nullable = false)
     var fabricType: FabricType,
 
     @Column(name = "fabric_type_detail", nullable = true)
-    var fabricTypeDetail: String?,
+    var fabricTypeDetail: String,
 
     @Column(name = "width", nullable = false)
     var width: Long,
@@ -31,7 +30,11 @@ class Fabric(
     companion object {
         fun from(fabricInfoCreateRequest: FabricInfoCreateRequest): Fabric {
             val matchedType = FabricType.getByTypeName(fabricInfoCreateRequest.fabricTypeName)
-            val detail = if (matchedType == FabricType.DIRECT_INPUT) fabricInfoCreateRequest.fabricTypeName else null
+            val detail = if (matchedType == FabricType.DIRECT_INPUT) {
+                fabricInfoCreateRequest.fabricTypeName
+            } else {
+                matchedType.description
+            }
 
             return Fabric(
                 fabricType = FabricType.getByTypeName(fabricInfoCreateRequest.fabricTypeName),

@@ -77,6 +77,24 @@ class FabricInfoFacade(
         return PagingResult.from(page)
     }
 
+    fun getFabricInfoListByType(
+        page: Int,
+        size: Int,
+        startDate: LocalDate,
+        endDate: LocalDate,
+        fabricTypeName: String
+    ): PagingResult<FabricInfoListResponse> {
+        val pageRequest = PageRequest.of(page, size)
+        val page = readFabricInfoService.getListByFabricType(startDate, endDate, fabricTypeName, pageRequest).map {
+            FabricInfoListResponse.of(
+                it,
+                readFabricInfoService.getFabricTypeName(it.fabric),
+                getOrdererName(it.ordererId),
+            )
+        }
+        return PagingResult.from(page)
+    }
+
     private fun createFabricCode(fabricInfoRequest: FabricInfoRequest): String {
         val fabricType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName)
         val fabricCodeRequest = FabricCodeRequest.of(
