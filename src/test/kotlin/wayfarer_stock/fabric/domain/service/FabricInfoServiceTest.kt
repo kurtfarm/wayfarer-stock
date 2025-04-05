@@ -8,6 +8,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
 import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
+import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 import wayfarer_stock.fabric.domain.entity.FabricInfo
 import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
 import java.time.LocalDate
@@ -20,6 +21,9 @@ class FabricInfoServiceTest {
 
     @InjectMocks
     private lateinit var fabricInfoService: FabricInfoService
+
+    @InjectMocks
+    private lateinit var readFabricInfoService: ReadFabricInfoService
 
     @Test
     fun `원단 정보를 생성한다`() {
@@ -48,14 +52,11 @@ class FabricInfoServiceTest {
     @Test
     fun `원단 정보를 수정한다`() {
         // given
-        val id = 1L
         val request = createFakeRequest()
         val mockEntity = mock(FabricInfo::class.java)
 
-        `when`(fabricInfoRepository.findById(id)).thenReturn(Optional.of(mockEntity))
-
         // when
-        fabricInfoService.updateFabricInfo(id, request)
+        fabricInfoService.updateFabricInfo(mockEntity, request)
 
         // then
         verify(mockEntity).update(request)
@@ -71,7 +72,7 @@ class FabricInfoServiceTest {
 
         // when & then
         assertThatThrownBy {
-            fabricInfoService.getFabricInfo(id)
+            readFabricInfoService.getFabricInfo(id)
         }.isInstanceOf(IllegalArgumentException::class.java)
     }
 

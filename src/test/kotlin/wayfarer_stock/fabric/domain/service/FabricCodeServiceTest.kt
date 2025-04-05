@@ -28,7 +28,7 @@ class FabricCodeServiceTest {
         val result = fabricCodeService.createFabricCode(fabricInfoRequest)
 
         // then
-        assertThat(result).isEqualTo("25011230001")
+        assertThat(result).isEqualTo("25011500200")
     }
 
     private fun createFakeRequest(): FabricInfoRequest {
