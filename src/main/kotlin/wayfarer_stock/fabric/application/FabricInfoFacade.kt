@@ -3,7 +3,7 @@ package wayfarer_stock.fabric.application
 import org.springframework.stereotype.Service
 import wayfarer_stock.fabric.application.dto.FabricCodeRequest
 import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
-import wayfarer_stock.fabric.controller.dto.FabricInfoRequest
+import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 import wayfarer_stock.fabric.domain.entity.FabricType
 import wayfarer_stock.fabric.domain.service.FabricCodeService
 import wayfarer_stock.fabric.domain.service.FabricInfoService

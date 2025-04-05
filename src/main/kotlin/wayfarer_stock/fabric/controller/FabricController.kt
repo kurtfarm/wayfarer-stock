@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import wayfarer_stock.fabric.application.FabricInfoFacade
-import wayfarer_stock.fabric.controller.dto.FabricInfoRequest
+import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 
 @Tag(name = "Fabric", description = "Fabric Info API")
 @RestController

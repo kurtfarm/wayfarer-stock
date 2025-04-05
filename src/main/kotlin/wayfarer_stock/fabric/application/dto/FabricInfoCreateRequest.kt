@@ -1,6 +1,6 @@
 package wayfarer_stock.fabric.application.dto
 
-import wayfarer_stock.fabric.controller.dto.FabricInfoRequest
+import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 import java.time.LocalDate
 
 data class FabricInfoCreateRequest(
