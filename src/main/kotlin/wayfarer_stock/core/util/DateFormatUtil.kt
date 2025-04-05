@@ -8,7 +8,7 @@ object DateFormatUtil {
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
 
     private fun getKoreanDayOfWeek(date: LocalDate): String {
-        val dayOfWeek = date.dayOfWeek  // MONDAY, TUESDAY, ...
+        val dayOfWeek = date.dayOfWeek
         return when (dayOfWeek) {
             java.time.DayOfWeek.MONDAY -> "월"
             java.time.DayOfWeek.TUESDAY -> "화"
@@ -24,5 +24,9 @@ object DateFormatUtil {
         val formattedDate = date.format(dateFormatter)
         val dayOfWeek = getKoreanDayOfWeek(date)
         return "$formattedDate($dayOfWeek)"
+    }
+
+    fun formatDate(date: LocalDate): String{
+        return date.format(dateFormatter)
     }
 }

@@ -1,32 +1,37 @@
 package wayfarer_stock.fabric.controller.dto.response
 
+import wayfarer_stock.core.util.DateFormatUtil
 import wayfarer_stock.fabric.domain.entity.FabricInfo
-import java.time.LocalDate
 
 data class FabricInfoResponse(
-    val registrationDate: LocalDate,
-    val expectedArrivalDate: LocalDate,
+    val registrationDate: String,
+    val expectedArrivalDate: String,
     val ordererName: String,
-    val customerName: String,
     val fabricTypeName: String,
     val fabricCode: String,
+    val customerName: String,
+    val standard: Double,
     val width: Long,
-    val length: Double,
     val thickness: Double,
     val quantity: Int,
     val comment: String?,
 ) {
     companion object {
-        fun of(fabricInfo: FabricInfo, ordererName: String, customerName: String, fabricCode: String): FabricInfoResponse{
+        fun of(
+            fabricInfo: FabricInfo,
+            ordererName: String,
+            customerName: String,
+            fabricCode: String
+        ): FabricInfoResponse {
             return FabricInfoResponse(
-                registrationDate = fabricInfo.registrationDate,
-                expectedArrivalDate = fabricInfo.expectedArrivalDate,
+                registrationDate = DateFormatUtil.formatDate(fabricInfo.registrationDate),
+                expectedArrivalDate = DateFormatUtil.formatDate(fabricInfo.expectedArrivalDate),
                 ordererName = ordererName,
-                customerName= customerName,
                 fabricTypeName = fabricInfo.fabric.fabricType.name,
                 fabricCode = fabricCode,
+                customerName = customerName,
+                standard = fabricInfo.fabric.length * fabricInfo.fabric.width,
                 width = fabricInfo.fabric.width,
-                length = fabricInfo.fabric.length,
                 thickness = fabricInfo.fabric.thickness,
                 quantity = fabricInfo.fabric.quantity,
                 comment = fabricInfo.comment,
