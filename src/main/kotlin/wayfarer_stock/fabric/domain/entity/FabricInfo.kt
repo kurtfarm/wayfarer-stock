@@ -10,7 +10,7 @@ import jakarta.persistence.Table
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.SQLRestriction
 import wayfarer_stock.core.infrastructure.jpa.shared.BaseEntity
-import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
+import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 import wayfarer_stock.fabric.core.AggregateRoot
 import java.time.LocalDate
 
@@ -47,26 +47,26 @@ class FabricInfo(
     var comment: String?,
 ) : BaseEntity() {
     companion object {
-        fun of(fabricInfoCreateRequest: FabricInfoCreateRequest): FabricInfo {
+        fun of(fabricInfoRequest: FabricInfoRequest, ordererId: Long, customerId: Long, codeId: Long): FabricInfo {
             return FabricInfo(
-                registrationDate = fabricInfoCreateRequest.registrationDate,
-                expectedArrivalDate = fabricInfoCreateRequest.expectedArrivalDate,
-                ordererId = fabricInfoCreateRequest.ordererId,
-                customerId = fabricInfoCreateRequest.customerId,
-                codeId = fabricInfoCreateRequest.codeId,
-                fabric = Fabric.from(fabricInfoCreateRequest),
-                comment = fabricInfoCreateRequest.comment,
+                registrationDate = fabricInfoRequest.registrationDate,
+                expectedArrivalDate = fabricInfoRequest.expectedArrivalDate,
+                ordererId = ordererId,
+                customerId = customerId,
+                codeId = codeId,
+                fabric = Fabric.from(fabricInfoRequest),
+                comment = fabricInfoRequest.comment,
             )
         }
     }
 
-    fun update(fabricInfoCreateRequest: FabricInfoCreateRequest) {
-        this.registrationDate = fabricInfoCreateRequest.registrationDate
-        this.expectedArrivalDate = fabricInfoCreateRequest.expectedArrivalDate
-        this.ordererId = fabricInfoCreateRequest.ordererId
-        this.customerId = fabricInfoCreateRequest.customerId
-        this.codeId = fabricInfoCreateRequest.codeId
-        this.fabric = Fabric.from(fabricInfoCreateRequest)
-        this.comment = fabricInfoCreateRequest.comment
+    fun update(fabricInfoRequest: FabricInfoRequest, ordererId: Long, customerId: Long, codeId: Long) {
+        this.registrationDate = fabricInfoRequest.registrationDate
+        this.expectedArrivalDate = fabricInfoRequest.expectedArrivalDate
+        this.ordererId = ordererId
+        this.customerId = customerId
+        this.codeId = codeId
+        this.fabric = Fabric.from(fabricInfoRequest)
+        this.comment = fabricInfoRequest.comment
     }
 }

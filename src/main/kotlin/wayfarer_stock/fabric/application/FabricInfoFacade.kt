@@ -19,14 +19,24 @@ class FabricInfoFacade(
     private val readFabricInfoService: ReadFabricInfoService,
 ) {
     fun registerFabric(fabricInfoRequest: FabricInfoRequest) {
-        val fabricInfoCreateRequest = convertToCreateRequest(fabricInfoRequest)
-        fabricInfoService.createFabricInfo(fabricInfoCreateRequest)
+        fabricInfoService.createFabricInfo(
+            fabricInfoRequest,
+            getOrdererId(fabricInfoRequest.ordererName),
+            getCustomerId(fabricInfoRequest.customerName),
+            getCodeId(fabricInfoRequest),
+        )
     }
 
     fun updateFabric(id: Long, fabricInfoRequest: FabricInfoRequest) {
         val fabricInfoCreateRequest = convertToCreateRequest(fabricInfoRequest)
         val fabricInfo = readFabricInfoService.getFabricInfo(id);
-        fabricInfoService.updateFabricInfo(fabricInfo, fabricInfoCreateRequest)
+        fabricInfoService.updateFabricInfo(
+            fabricInfo,
+            fabricInfoRequest,
+            getOrdererId(fabricInfoRequest.ordererName),
+            getCustomerId(fabricInfoRequest.customerName),
+            getCodeId(fabricInfoRequest),
+        )
     }
 
     fun deleteFabric(id: Long) {

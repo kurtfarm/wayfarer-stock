@@ -4,7 +4,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
-import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
+import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 
 @Embeddable
 class Fabric(
@@ -28,21 +28,21 @@ class Fabric(
     var quantity: Int,
 ) {
     companion object {
-        fun from(fabricInfoCreateRequest: FabricInfoCreateRequest): Fabric {
-            val matchedType = FabricType.getByTypeName(fabricInfoCreateRequest.fabricTypeName)
+        fun from(fabricInfoRequest: FabricInfoRequest): Fabric {
+            val matchedType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName)
             val detail = if (matchedType == FabricType.DIRECT_INPUT) {
-                fabricInfoCreateRequest.fabricTypeName
+                fabricInfoRequest.fabricTypeName
             } else {
                 matchedType.description
             }
 
             return Fabric(
-                fabricType = FabricType.getByTypeName(fabricInfoCreateRequest.fabricTypeName),
+                fabricType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName),
                 fabricTypeDetail = detail,
-                width = fabricInfoCreateRequest.width,
-                length = fabricInfoCreateRequest.length,
-                thickness = fabricInfoCreateRequest.thickness,
-                quantity = fabricInfoCreateRequest.quantity
+                width = fabricInfoRequest.width,
+                length = fabricInfoRequest.length,
+                thickness = fabricInfoRequest.thickness,
+                quantity = fabricInfoRequest.quantity
             )
         }
     }

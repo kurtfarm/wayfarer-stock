@@ -2,7 +2,7 @@ package wayfarer_stock.fabric.domain.service
 
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
-import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
+import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 import wayfarer_stock.fabric.domain.entity.FabricInfo
 import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
 
@@ -11,13 +11,26 @@ class FabricInfoService(
     private val fabricInfoRepository: FabricInfoRepository,
 ) {
     @Transactional
-    fun createFabricInfo(fabricInfoCreateRequest: FabricInfoCreateRequest) {
-        fabricInfoRepository.save(FabricInfo.of(fabricInfoCreateRequest))
+    fun createFabricInfo(
+        fabricInfoRequest: FabricInfoRequest,
+        ordererId: Long,
+        customerId: Long,
+        codeId: Long,
+    ) {
+        fabricInfoRepository.save(
+            FabricInfo.of(fabricInfoRequest, ordererId, customerId, codeId)
+        )
     }
 
     @Transactional
-    fun updateFabricInfo(fabricInfo: FabricInfo, fabricInfoCreateRequest: FabricInfoCreateRequest) {
-        fabricInfo.update(fabricInfoCreateRequest)
+    fun updateFabricInfo(
+        fabricInfo: FabricInfo,
+        fabricInfoRequest: FabricInfoRequest,
+        ordererId: Long,
+        customerId: Long,
+        codeId: Long
+    ) {
+        fabricInfo.update(fabricInfoRequest, ordererId, customerId, codeId)
     }
 
     @Transactional
