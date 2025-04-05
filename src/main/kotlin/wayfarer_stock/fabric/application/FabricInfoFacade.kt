@@ -1,13 +1,18 @@
 package wayfarer_stock.fabric.application
 
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import wayfarer_stock.core.web.PagingResult
 import wayfarer_stock.fabric.application.dto.FabricCodeRequest
 import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
+import wayfarer_stock.fabric.controller.dto.response.FabricInfoListResponse
+import wayfarer_stock.fabric.controller.dto.response.FabricInfoResponse
 import wayfarer_stock.fabric.domain.entity.FabricType
 import wayfarer_stock.fabric.domain.service.FabricCodeService
 import wayfarer_stock.fabric.domain.service.FabricInfoService
 import wayfarer_stock.fabric.domain.service.ReadFabricInfoService
+import java.time.LocalDate
 
 @Service
 class FabricInfoFacade(
@@ -28,6 +33,42 @@ class FabricInfoFacade(
 
     fun deleteFabric(id: Long) {
         fabricInfoService.deleteFabricInfo(id);
+    }
+
+    fun getDetailedFabricInfo(id: Long): FabricInfoResponse {
+        val fabricInfo = readFabricInfoService.getFabricInfo(id)
+        return FabricInfoResponse.of(
+            fabricInfo,
+            getOrdererName(fabricInfo.ordererId),
+            getCustomerName(fabricInfo.customerId),
+            getCode(fabricInfo.codeId),
+        )
+    }
+
+    fun getFabricInfoList(page: Int, size: Int): PagingResult<FabricInfoListResponse> {
+        val pageRequest = PageRequest.of(page, size)
+        val page = readFabricInfoService.getList(pageRequest).map {
+            FabricInfoListResponse.of(
+                it,
+                getOrdererName(it.ordererId)
+            )
+        }
+        return PagingResult.from(page)
+    }
+
+    fun getFabricInfoListByOrderer(
+        page: Int,
+        size: Int,
+        startDate: LocalDate,
+        endDate: LocalDate,
+        ordererName: String
+    ): PagingResult<FabricInfoListResponse> {
+        val pageRequest = PageRequest.of(page, size)
+        val ordererId = getOrdererId(ordererName)
+        val page = readFabricInfoService.getListByOrderer(startDate, endDate, ordererId, pageRequest).map {
+            FabricInfoListResponse.of(it, ordererName)
+        }
+        return PagingResult.from(page)
     }
 
     private fun createFabricCode(fabricInfoRequest: FabricInfoRequest): String {
@@ -61,5 +102,17 @@ class FabricInfoFacade(
     private fun getCodeId(fabricInfoRequest: FabricInfoRequest): Long {
         val fabricCode = createFabricCode(fabricInfoRequest)
         return 1L // TODO: codeSdk.createFabricCode(fabricCode).orElseThrow { BadRequestException("원단 코드 생성에 실패했습니다.") }
+    }
+
+    private fun getOrdererName(ordererId: Long): String {
+        return "발주처 1" // TODO: orderSdk.getOrdererNameById(ordererId).orElseThrow { BadRequestException("존재하지 않는 고객사입니다: $ordererId") }
+    }
+
+    private fun getCustomerName(customerId: Long): String {
+        return "고객사 1"// TODO: customerSdk.getCustomerNameById(customerId).orElseThrow { BadRequestException("존재하지 않는 거래처입니다: $customerId") }
+    }
+
+    private fun getCode(codeId: Long): String {
+        return "25010990022" // TODO: codeSdk.getCodeById(fabricInfo.codeId).orElseThrow { BadRequestException("존재하지 않는 코드입니다: $codeId") }
     }
 }
