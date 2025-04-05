@@ -21,7 +21,6 @@ data class FabricInfoResponse(
         fun of(
             fabricInfo: FabricInfo,
             ordererName: String,
-            fabricTypeName: String,
             customerName: String,
             fabricCode: String
         ): FabricInfoResponse {
@@ -30,7 +29,7 @@ data class FabricInfoResponse(
                 registrationDate = DateFormatUtil.formatDate(fabricInfo.registrationDate),
                 expectedArrivalDate = DateFormatUtil.formatDate(fabricInfo.expectedArrivalDate),
                 ordererName = ordererName,
-                fabricTypeName = fabricTypeName,
+                fabricTypeName = fabricInfo.fabric.fabricTypeDetail,
                 fabricCode = fabricCode,
                 customerName = customerName,
                 standard = fabricInfo.fabric.length * fabricInfo.fabric.width,

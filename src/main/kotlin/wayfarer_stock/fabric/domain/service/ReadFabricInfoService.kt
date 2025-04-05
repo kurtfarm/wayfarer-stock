@@ -43,12 +43,4 @@ class ReadFabricInfoService(
     fun getFabricInfo(id: Long): FabricInfo {
         return fabricInfoRepository.findById(id).orElseThrow { IllegalArgumentException("존재하지 않는 원단 정보입니다. id: $id") }
     }
-
-    fun getFabricTypeName(fabric: Fabric): String {
-        return if (fabric.fabricType == FabricType.DIRECT_INPUT) {
-            fabric.fabricTypeDetail ?: "직접입력"
-        } else {
-            fabric.fabricType.description
-        }
-    }
 }

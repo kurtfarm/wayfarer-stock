@@ -14,10 +14,10 @@ data class FabricInfoListResponse(
     val expectedArrivalDate: String,
 ) {
     companion object {
-        fun of(fabricInfo: FabricInfo, fabricTypeName:String, ordererName: String): FabricInfoListResponse {
+        fun of(fabricInfo: FabricInfo, ordererName: String): FabricInfoListResponse {
             return FabricInfoListResponse(
                 id = fabricInfo.id,
-                fabricTypeName = fabricTypeName,
+                fabricTypeName = fabricInfo.fabric.fabricTypeDetail,
                 ordererName = ordererName,
                 standard = fabricInfo.fabric.length * fabricInfo.fabric.width,
                 width = fabricInfo.fabric.width,

@@ -3,12 +3,10 @@ package wayfarer_stock.fabric.application
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import wayfarer_stock.core.web.PagingResult
-import wayfarer_stock.fabric.application.dto.FabricCodeRequest
 import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
 import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 import wayfarer_stock.fabric.controller.dto.response.FabricInfoListResponse
 import wayfarer_stock.fabric.controller.dto.response.FabricInfoResponse
-import wayfarer_stock.fabric.domain.entity.FabricType
 import wayfarer_stock.fabric.domain.service.FabricCodeService
 import wayfarer_stock.fabric.domain.service.FabricInfoService
 import wayfarer_stock.fabric.domain.service.ReadFabricInfoService
@@ -40,7 +38,6 @@ class FabricInfoFacade(
         return FabricInfoResponse.of(
             fabricInfo,
             getOrdererName(fabricInfo.ordererId),
-            readFabricInfoService.getFabricTypeName(fabricInfo.fabric),
             getCustomerName(fabricInfo.customerId),
             getCode(fabricInfo.codeId),
         )
@@ -51,7 +48,6 @@ class FabricInfoFacade(
         val page = readFabricInfoService.getList(pageRequest).map {
             FabricInfoListResponse.of(
                 it,
-                readFabricInfoService.getFabricTypeName(it.fabric),
                 getOrdererName(it.ordererId),
             )
         }
@@ -70,7 +66,6 @@ class FabricInfoFacade(
         val page = readFabricInfoService.getListByOrderer(startDate, endDate, ordererId, pageRequest).map {
             FabricInfoListResponse.of(
                 it,
-                readFabricInfoService.getFabricTypeName(it.fabric),
                 ordererName,
             )
         }
@@ -88,22 +83,10 @@ class FabricInfoFacade(
         val page = readFabricInfoService.getListByFabricType(startDate, endDate, fabricTypeName, pageRequest).map {
             FabricInfoListResponse.of(
                 it,
-                readFabricInfoService.getFabricTypeName(it.fabric),
                 getOrdererName(it.ordererId),
             )
         }
         return PagingResult.from(page)
-    }
-
-    private fun createFabricCode(fabricInfoRequest: FabricInfoRequest): String {
-        val fabricType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName)
-        val fabricCodeRequest = FabricCodeRequest.of(
-            fabricInfoRequest.registrationDate,
-            fabricType.code,
-            fabricInfoRequest.width,
-            fabricInfoRequest.length
-        );
-        return fabricCodeService.createFabricCode(fabricCodeRequest);
     }
 
     private fun convertToCreateRequest(fabricInfoRequest: FabricInfoRequest): FabricInfoCreateRequest {
@@ -124,7 +107,7 @@ class FabricInfoFacade(
     }
 
     private fun getCodeId(fabricInfoRequest: FabricInfoRequest): Long {
-        val fabricCode = createFabricCode(fabricInfoRequest)
+        val fabricCode = fabricCodeService.createFabricCode(fabricInfoRequest)
         return 1L // TODO: codeSdk.createFabricCode(fabricCode).orElseThrow { BadRequestException("원단 코드 생성에 실패했습니다.") }
     }
 
