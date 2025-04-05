@@ -16,17 +16,12 @@ class FabricInfoService(
     }
 
     @Transactional
-    fun updateFabricInfo(id: Long, fabricInfoCreateRequest: FabricInfoCreateRequest) {
-        val fabricInfo = getFabricInfo(id)
+    fun updateFabricInfo(fabricInfo: FabricInfo, fabricInfoCreateRequest: FabricInfoCreateRequest) {
         fabricInfo.update(fabricInfoCreateRequest)
     }
 
     @Transactional
     fun deleteFabricInfo(id: Long) {
         fabricInfoRepository.deleteById(id)
-    }
-
-    fun getFabricInfo(id: Long): FabricInfo {
-        return fabricInfoRepository.findById(id).orElseThrow { IllegalArgumentException("존재하지 않는 원단 정보입니다. id: $id") }
     }
 }
