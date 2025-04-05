@@ -53,8 +53,8 @@ class ReadFabricController(
         @RequestParam ordererName: String,
     ): PagingResult<FabricInfoListResponse> {
         val today = LocalDate.now()
-        val start = startDate?: today
-        val end = endDate?: today
+        val start = startDate ?: today
+        val end = endDate ?: today
         return fabricInfoFacade.getFabricInfoListByOrderer(page, size, start, end, ordererName)
     }
 }

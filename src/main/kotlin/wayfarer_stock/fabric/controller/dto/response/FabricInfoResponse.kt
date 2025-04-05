@@ -27,7 +27,7 @@ data class FabricInfoResponse(
                 registrationDate = DateFormatUtil.formatDate(fabricInfo.registrationDate),
                 expectedArrivalDate = DateFormatUtil.formatDate(fabricInfo.expectedArrivalDate),
                 ordererName = ordererName,
-                fabricTypeName = fabricInfo.fabric.fabricType.name,
+                fabricTypeName = fabricInfo.fabric.fabricType.description,
                 fabricCode = fabricCode,
                 customerName = customerName,
                 standard = fabricInfo.fabric.length * fabricInfo.fabric.width,

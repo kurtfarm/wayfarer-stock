@@ -17,7 +17,7 @@ data class FabricInfoListResponse(
         fun of(fabricInfo: FabricInfo, ordererName: String): FabricInfoListResponse {
             return FabricInfoListResponse(
                 id = fabricInfo.id,
-                fabricTypeName = fabricInfo.fabric.fabricType.name,
+                fabricTypeName = fabricInfo.fabric.fabricType.description,
                 ordererName = ordererName,
                 standard = fabricInfo.fabric.length * fabricInfo.fabric.width,
                 width = fabricInfo.fabric.width,
