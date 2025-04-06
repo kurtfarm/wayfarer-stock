@@ -23,7 +23,7 @@ class ReadFabricController(
         summary = "원단 상세 값 불러오기",
         description = "원단을 조회할 때 상세 값들을 불러온다."
     )
-    @GetMapping(ApiPath.Fabric.READ_DETAILED_FABRIC_INFO)
+    @GetMapping(ApiPath.Fabric.GET_DETAILED_INFO)
     fun readDetailedFabricInfo(@PathVariable id: Long): ResponseEntity<FabricInfoResponse> {
         return ResponseEntity.ok(fabricInfoFacade.getDetailedFabricInfo(id));
     }
@@ -32,7 +32,7 @@ class ReadFabricController(
         summary = "원단 리스트 불러오기",
         description = "원단 초기 리스트를 불러온다."
     )
-    @GetMapping(ApiPath.Fabric.READ_FABRIC_LIST)
+    @GetMapping(ApiPath.Fabric.GET_LIST)
     fun readFabricInfoList(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "15") size: Int,
@@ -44,7 +44,7 @@ class ReadFabricController(
         summary = "원단 리스트 검색 (기준: 거래처)",
         description = "거래처를 기준으로 원단 리스트를 검색한다."
     )
-    @GetMapping(ApiPath.Fabric.READ_FABRIC_BY_ORDERER)
+    @GetMapping(ApiPath.Fabric.SEARCH_BY_ORDERER)
     fun readFabricInfoListByOrderer(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "15") size: Int,
@@ -62,7 +62,7 @@ class ReadFabricController(
         summary = "원단 리스트 검색 (기준: 원단구분)",
         description = "원단구분을 기준으로 원단 리스트를 검색한다."
     )
-    @GetMapping(ApiPath.Fabric.READ_FABRIC_BY_TYPE)
+    @GetMapping(ApiPath.Fabric.SEARCH_BY_TYPE)
     fun readFabricInfoListByType(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "15") size: Int,

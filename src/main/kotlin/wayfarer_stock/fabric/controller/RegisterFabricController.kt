@@ -19,7 +19,7 @@ class RegisterFabricController(
         summary = "원단 등록",
         description = "새로운 원단 정보를 등록한다."
     )
-    @PostMapping(ApiPath.Fabric.REGISTER_FABRIC)
+    @PostMapping(ApiPath.Fabric.REGISTER)
     fun registerFabric(
         @Parameter(description = "등록할 원단 정보")
         @RequestBody req: FabricInfoRequest

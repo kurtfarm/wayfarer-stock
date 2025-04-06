@@ -20,7 +20,7 @@ class EditFabricController (
         summary = "원단 수정",
         description = "기존의 원단 정보를 수정한다."
     )
-    @PutMapping(ApiPath.Fabric.EDIT_FABRIC)
+    @PutMapping(ApiPath.Fabric.EDIT)
     fun updateFabric(
         @PathVariable id: Long,
         @Parameter(description = "수정할 원단 정보")
@@ -33,7 +33,7 @@ class EditFabricController (
         summary = "원단 삭제",
         description = "기존의 원단 정보를 삭제한다."
     )
-    @DeleteMapping(ApiPath.Fabric.DELETE_FABRIC)
+    @DeleteMapping(ApiPath.Fabric.DELETE)
     fun deleteFabric(
         @Parameter(description = "삭제할 원단 id")
         @PathVariable id: Long,
