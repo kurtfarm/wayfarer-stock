@@ -7,7 +7,7 @@ import jakarta.persistence.Enumerated
 import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 
 @Embeddable
-class Fabric(
+open class Fabric(
     @Enumerated(EnumType.STRING)
     @Column(name = "fabric_type", nullable = false)
     var fabricType: FabricType,
