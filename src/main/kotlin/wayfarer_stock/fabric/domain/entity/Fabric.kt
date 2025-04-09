@@ -30,11 +30,8 @@ class Fabric(
     companion object {
         fun from(fabricInfoRequest: FabricInfoRequest): Fabric {
             val matchedType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName)
-            val detail = if (matchedType == FabricType.DIRECT_INPUT) {
-                fabricInfoRequest.fabricTypeName
-            } else {
-                matchedType.description
-            }
+            val detail = (fabricInfoRequest.fabricTypeName.takeIf { matchedType == FabricType.DIRECT_INPUT }
+                ?: matchedType.description)
 
             return Fabric(
                 fabricType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName),
