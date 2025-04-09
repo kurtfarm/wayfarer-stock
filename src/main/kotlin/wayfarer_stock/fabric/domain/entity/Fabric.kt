@@ -12,7 +12,7 @@ class Fabric(
     @Column(name = "fabric_type", nullable = false)
     var fabricType: FabricType,
 
-    @Column(name = "fabric_type_detail", nullable = true)
+    @Column(name = "fabric_type_detail", nullable = false)
     var fabricTypeDetail: String,
 
     @Column(name = "width", nullable = false)
