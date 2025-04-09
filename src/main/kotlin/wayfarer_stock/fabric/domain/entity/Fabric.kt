@@ -4,14 +4,16 @@ import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
-import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
+import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 
 @Embeddable
-class Fabric(
-
+open class Fabric(
     @Enumerated(EnumType.STRING)
     @Column(name = "fabric_type", nullable = false)
     var fabricType: FabricType,
+
+    @Column(name = "fabric_type_detail", nullable = false)
+    var fabricTypeDetail: String,
 
     @Column(name = "width", nullable = false)
     var width: Long,
@@ -26,13 +28,18 @@ class Fabric(
     var quantity: Int,
 ) {
     companion object {
-        fun from(fabricInfoCreateRequest: FabricInfoCreateRequest): Fabric {
+        fun from(fabricInfoRequest: FabricInfoRequest): Fabric {
+            val matchedType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName)
+            val detail = (fabricInfoRequest.fabricTypeName.takeIf { matchedType == FabricType.DIRECT_INPUT }
+                ?: matchedType.description)
+
             return Fabric(
-                fabricType = FabricType.getByTypeName(fabricInfoCreateRequest.fabricTypeName),
-                width = fabricInfoCreateRequest.width,
-                length = fabricInfoCreateRequest.length,
-                thickness = fabricInfoCreateRequest.thickness,
-                quantity = fabricInfoCreateRequest.quantity
+                fabricType = FabricType.getByTypeName(fabricInfoRequest.fabricTypeName),
+                fabricTypeDetail = detail,
+                width = fabricInfoRequest.width,
+                length = fabricInfoRequest.length,
+                thickness = fabricInfoRequest.thickness,
+                quantity = fabricInfoRequest.quantity
             )
         }
     }

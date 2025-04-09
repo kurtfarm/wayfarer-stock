@@ -1,4 +1,4 @@
-package wayfarer_stock.fabric.controller.dto
+package wayfarer_stock.fabric.controller.dto.request
 
 import java.time.LocalDate
 

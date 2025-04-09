@@ -1,7 +1,11 @@
 object ApiPath {
     object Fabric {
-        const val REGISTER_FABRIC = "api/v1/fabric/register"
-        const val EDIT_FABRIC = "api/v1/fabric/{id}"
-        const val DELETE_FABRIC = "api/v1/fabric/{id}"
+        const val REGISTER = "/api/v1/fabric/register"
+        const val GET_LIST = "/api/v1/fabric"
+        const val GET_DETAILED_INFO = "/api/v1/fabric/{id}"
+        const val SEARCH_BY_ORDERER = "/api/v1/fabric/search/vendor"
+        const val SEARCH_BY_TYPE = "/api/v1/fabric/search/type"
+        const val EDIT = "/api/v1/fabric/{id}"
+        const val DELETE = "/api/v1/fabric/{id}"
     }
 }

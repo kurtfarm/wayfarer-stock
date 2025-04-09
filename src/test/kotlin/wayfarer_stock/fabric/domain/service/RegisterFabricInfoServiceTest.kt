@@ -7,19 +7,25 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
-import wayfarer_stock.fabric.application.dto.FabricInfoCreateRequest
+import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 import wayfarer_stock.fabric.domain.entity.FabricInfo
 import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
 import java.time.LocalDate
 import java.util.*
 
 @ExtendWith(MockitoExtension::class)
-class FabricInfoServiceTest {
+class RegisterFabricInfoServiceTest {
     @Mock
     private lateinit var fabricInfoRepository: FabricInfoRepository
 
     @InjectMocks
-    private lateinit var fabricInfoService: FabricInfoService
+    private lateinit var registerFabricInfoService: RegisterFabricInfoService
+
+    @InjectMocks
+    private lateinit var editFabricInfoService: EditFabricInfoService
+
+    @InjectMocks
+    private lateinit var readFabricInfoService: ReadFabricInfoService
 
     @Test
     fun `원단 정보를 생성한다`() {
@@ -27,15 +33,15 @@ class FabricInfoServiceTest {
         val request = createFakeRequest()
 
         // when
-        fabricInfoService.createFabricInfo(request)
+        registerFabricInfoService.createFabricInfo(request, 1L, 1L, 1L)
 
         // then
         verify(fabricInfoRepository).save(argThat { entity ->
             entity.registrationDate == request.registrationDate &&
                     entity.expectedArrivalDate == request.expectedArrivalDate &&
-                    entity.ordererId == request.ordererId &&
-                    entity.customerId == request.customerId &&
-                    entity.codeId == request.codeId &&
+                    entity.ordererId == 1L &&
+                    entity.customerId == 1L &&
+                    entity.codeId == 1L &&
                     entity.fabric.fabricType.description == request.fabricTypeName &&
                     entity.fabric.width == request.width &&
                     entity.fabric.length == request.length &&
@@ -48,17 +54,14 @@ class FabricInfoServiceTest {
     @Test
     fun `원단 정보를 수정한다`() {
         // given
-        val id = 1L
         val request = createFakeRequest()
         val mockEntity = mock(FabricInfo::class.java)
 
-        `when`(fabricInfoRepository.findById(id)).thenReturn(Optional.of(mockEntity))
-
         // when
-        fabricInfoService.updateFabricInfo(id, request)
+        editFabricInfoService.updateFabricInfo(mockEntity, request, 1L, 1L, 1L)
 
         // then
-        verify(mockEntity).update(request)
+        verify(mockEntity).update(request, 1L, 1L, 1L)
     }
 
     @Test
@@ -71,7 +74,7 @@ class FabricInfoServiceTest {
 
         // when & then
         assertThatThrownBy {
-            fabricInfoService.getFabricInfo(id)
+            readFabricInfoService.getFabricInfo(id)
         }.isInstanceOf(IllegalArgumentException::class.java)
     }
 
@@ -81,20 +84,19 @@ class FabricInfoServiceTest {
         val id = 1L
 
         // when
-        fabricInfoService.deleteFabricInfo(id)
+        editFabricInfoService.deleteFabricInfo(id)
 
         // then
         verify(fabricInfoRepository).deleteById(id)
     }
 
 
-    private fun createFakeRequest(): FabricInfoCreateRequest {
-        return FabricInfoCreateRequest(
+    private fun createFakeRequest(): FabricInfoRequest {
+        return FabricInfoRequest(
             registrationDate = LocalDate.of(2025, 1, 1),
             expectedArrivalDate = LocalDate.of(2025, 1, 10),
-            ordererId = 1L,
-            customerId = 2L,
-            codeId = 3L,
+            ordererName = "발주처 A",
+            customerName = "고객사 B",
             fabricTypeName = "PET",
             width = 150,
             length = 200.0,
