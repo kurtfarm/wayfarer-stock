@@ -1,4 +1,4 @@
-package com.dkprint.api.fabric.controller
+package com.dkprint.api.controller.fabric
 
 import com.dkprint.api.ApiPath
 import com.dkprint.app.fabric.dto.request.FabricInfoRequest
