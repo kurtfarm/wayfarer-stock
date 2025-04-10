@@ -1,5 +1,11 @@
 package wayfarer_stock.fabric.domain.service
 
+import com.dkprint.app.fabric.domain.entity.FabricInfo
+import com.dkprint.app.fabric.domain.repository.FabricInfoRepository
+import com.dkprint.app.fabric.domain.service.EditFabricInfoService
+import com.dkprint.app.fabric.domain.service.ReadFabricInfoService
+import com.dkprint.app.fabric.domain.service.RegisterFabricInfoService
+import com.dkprint.app.fabric.dto.request.FabricInfoRequest
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -7,9 +13,6 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
-import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
-import wayfarer_stock.fabric.domain.entity.FabricInfo
-import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
 import java.time.LocalDate
 import java.util.*
 

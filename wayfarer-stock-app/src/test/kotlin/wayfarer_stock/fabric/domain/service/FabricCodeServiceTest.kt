@@ -1,12 +1,13 @@
 package wayfarer_stock.fabric.domain.service
 
+import com.dkprint.app.fabric.domain.repository.FabricInfoRepository
+import com.dkprint.app.fabric.domain.service.FabricCodeService
+import com.dkprint.app.fabric.dto.request.FabricInfoRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
-import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
-import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
 import java.time.LocalDate
 import kotlin.test.Test
 

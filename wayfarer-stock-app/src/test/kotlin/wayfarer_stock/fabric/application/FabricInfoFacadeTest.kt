@@ -1,5 +1,15 @@
 package wayfarer_stock.fabric.application
 
+import com.dkprint.app.fabric.application.FabricInfoFacade
+import com.dkprint.app.fabric.domain.entity.Fabric
+import com.dkprint.app.fabric.domain.entity.FabricInfo
+import com.dkprint.app.fabric.domain.entity.FabricType
+import com.dkprint.app.fabric.domain.service.EditFabricInfoService
+import com.dkprint.app.fabric.domain.service.FabricCodeService
+import com.dkprint.app.fabric.domain.service.ReadFabricInfoService
+import com.dkprint.app.fabric.domain.service.RegisterFabricInfoService
+import com.dkprint.app.fabric.dto.response.FabricInfoListResponse
+import com.dkprint.app.fabric.dto.response.FabricInfoResponse
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -9,15 +19,6 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
-import wayfarer_stock.fabric.controller.dto.response.FabricInfoListResponse
-import wayfarer_stock.fabric.controller.dto.response.FabricInfoResponse
-import wayfarer_stock.fabric.domain.entity.Fabric
-import wayfarer_stock.fabric.domain.entity.FabricInfo
-import wayfarer_stock.fabric.domain.entity.FabricType
-import wayfarer_stock.fabric.domain.service.EditFabricInfoService
-import wayfarer_stock.fabric.domain.service.FabricCodeService
-import wayfarer_stock.fabric.domain.service.ReadFabricInfoService
-import wayfarer_stock.fabric.domain.service.RegisterFabricInfoService
 import java.time.LocalDate
 
 @ExtendWith(MockitoExtension::class)
@@ -25,10 +26,13 @@ class FabricInfoFacadeListTest {
 
     @Mock
     lateinit var registerFabricInfoService: RegisterFabricInfoService
+
     @Mock
     lateinit var editFabricInfoService: EditFabricInfoService
+
     @Mock
     lateinit var readFabricInfoService: ReadFabricInfoService
+
     @Mock
     lateinit var fabricCodeService: FabricCodeService
 
