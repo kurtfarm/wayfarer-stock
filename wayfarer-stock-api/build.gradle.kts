@@ -1,16 +1,21 @@
 plugins {
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
     kotlin("jvm")
+    kotlin("plugin.spring")
+    kotlin("plugin.jpa")
+    kotlin("plugin.allopen")
 }
-
-group = "com.dkprint"
-version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    implementation(project(":wayfarer-stock-app"))
+
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+    testImplementation(kotlin("test"))
 }
 
 tasks.test {
@@ -18,4 +23,8 @@ tasks.test {
 }
 kotlin {
     jvmToolchain(17)
+}
+
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+    mainClass.set("com.dkprint.api.WayfarerStockApplicationKt")
 }

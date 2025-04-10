@@ -1,4 +1,4 @@
-package wayfarer_stock
+package com.dkprint.api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
