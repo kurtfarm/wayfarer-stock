@@ -1,10 +1,10 @@
 package com.dkprint.app.fabric.domain.entity
 
+import com.dkprint.app.fabric.dto.request.FabricInfoRequest
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
-import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 
 @Embeddable
 open class Fabric(

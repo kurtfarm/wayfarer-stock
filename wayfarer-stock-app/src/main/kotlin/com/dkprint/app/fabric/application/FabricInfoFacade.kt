@@ -1,15 +1,15 @@
 package com.dkprint.app.fabric.application
 
+import com.dkprint.app.core.web.PagingResult
+import com.dkprint.app.fabric.domain.service.EditFabricInfoService
+import com.dkprint.app.fabric.domain.service.FabricCodeService
+import com.dkprint.app.fabric.domain.service.ReadFabricInfoService
+import com.dkprint.app.fabric.domain.service.RegisterFabricInfoService
+import com.dkprint.app.fabric.dto.request.FabricInfoRequest
+import com.dkprint.app.fabric.dto.response.FabricInfoListResponse
+import com.dkprint.app.fabric.dto.response.FabricInfoResponse
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
-import wayfarer_stock.core.web.PagingResult
-import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
-import wayfarer_stock.fabric.controller.dto.response.FabricInfoListResponse
-import wayfarer_stock.fabric.controller.dto.response.FabricInfoResponse
-import wayfarer_stock.fabric.domain.service.EditFabricInfoService
-import wayfarer_stock.fabric.domain.service.FabricCodeService
-import wayfarer_stock.fabric.domain.service.RegisterFabricInfoService
-import wayfarer_stock.fabric.domain.service.ReadFabricInfoService
 import java.time.LocalDate
 
 @Service

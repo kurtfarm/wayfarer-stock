@@ -1,5 +1,8 @@
 package com.dkprint.app.fabric.domain.entity
 
+import com.dkprint.app.core.AggregateRoot
+import com.dkprint.app.core.infrastructure.jpa.shared.BaseEntity
+import com.dkprint.app.fabric.dto.request.FabricInfoRequest
 import jakarta.persistence.Column
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
@@ -9,9 +12,6 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.SQLRestriction
-import wayfarer_stock.core.infrastructure.jpa.shared.BaseEntity
-import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
-import com.dkprint.app.core.AggregateRoot
 import java.time.LocalDate
 
 @AggregateRoot

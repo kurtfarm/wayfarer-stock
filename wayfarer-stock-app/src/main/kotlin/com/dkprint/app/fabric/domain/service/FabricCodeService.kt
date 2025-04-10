@@ -1,8 +1,8 @@
 package com.dkprint.app.fabric.domain.service
 
+import com.dkprint.app.fabric.domain.entity.FabricType
+import com.dkprint.app.fabric.dto.request.FabricInfoRequest
 import org.springframework.stereotype.Service
-import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
-import wayfarer_stock.fabric.domain.entity.FabricType
 
 @Service
 class FabricCodeService {

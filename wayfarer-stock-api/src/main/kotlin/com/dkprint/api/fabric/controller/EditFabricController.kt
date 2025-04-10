@@ -1,5 +1,8 @@
 package com.dkprint.api.fabric.controller
 
+import com.dkprint.api.ApiPath
+import com.dkprint.app.fabric.dto.request.FabricInfoRequest
+import com.dkprint.app.fabric.application.FabricInfoFacade
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -8,8 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
-import wayfarer_stock.fabric.application.FabricInfoFacade
-import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
 
 @Tag(name = "Fabric", description = "Edit Fabric Info API")
 @RestController

@@ -1,10 +1,10 @@
 package com.dkprint.app.fabric.domain.service
 
+import com.dkprint.app.fabric.domain.entity.FabricInfo
+import com.dkprint.app.fabric.domain.repository.FabricInfoRepository
+import com.dkprint.app.fabric.dto.request.FabricInfoRequest
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
-import wayfarer_stock.fabric.controller.dto.request.FabricInfoRequest
-import wayfarer_stock.fabric.domain.entity.FabricInfo
-import wayfarer_stock.fabric.domain.repository.FabricInfoRepository
 
 @Service
 class EditFabricInfoService(

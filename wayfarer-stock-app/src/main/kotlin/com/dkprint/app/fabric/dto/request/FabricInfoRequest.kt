@@ -1,4 +1,4 @@
-package com.dkprint.api.fabric.controller.dto.request
+package com.dkprint.app.fabric.dto.request
 
 import java.time.LocalDate
 

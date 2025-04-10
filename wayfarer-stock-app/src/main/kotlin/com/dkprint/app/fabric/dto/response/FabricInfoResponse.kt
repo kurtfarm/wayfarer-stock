@@ -1,7 +1,7 @@
-package com.dkprint.api.fabric.controller.dto.response
+package com.dkprint.app.fabric.dto.response
 
-import wayfarer_stock.core.util.DateFormatUtil
-import wayfarer_stock.fabric.domain.entity.FabricInfo
+import com.dkprint.app.core.util.DateFormatUtil
+import com.dkprint.app.fabric.domain.entity.FabricInfo
 
 data class FabricInfoResponse(
     val registrationDate: String,

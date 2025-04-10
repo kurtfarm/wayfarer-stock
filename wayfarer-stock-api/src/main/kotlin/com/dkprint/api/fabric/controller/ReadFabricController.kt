@@ -1,6 +1,10 @@
 package com.dkprint.api.fabric.controller
 
-import ApiPath
+import com.dkprint.api.ApiPath
+import com.dkprint.app.fabric.dto.response.FabricInfoListResponse
+import com.dkprint.app.fabric.dto.response.FabricInfoResponse
+import com.dkprint.app.core.web.PagingResult
+import com.dkprint.app.fabric.application.FabricInfoFacade
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
@@ -8,10 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import wayfarer_stock.core.web.PagingResult
-import wayfarer_stock.fabric.application.FabricInfoFacade
-import wayfarer_stock.fabric.controller.dto.response.FabricInfoListResponse
-import wayfarer_stock.fabric.controller.dto.response.FabricInfoResponse
 import java.time.LocalDate
 
 @Tag(name = "Fabric", description = "Read Fabric Info API")
