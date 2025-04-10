@@ -1,6 +1,6 @@
 package com.dkprint.app.fabric.application
 
-import com.dkprint.app.core.web.PagingResult
+import com.dkprint.app.core.common.web.PagingResult
 import com.dkprint.app.fabric.domain.service.EditFabricInfoService
 import com.dkprint.app.fabric.domain.service.FabricCodeService
 import com.dkprint.app.fabric.domain.service.ReadFabricInfoService
@@ -100,27 +100,27 @@ class FabricInfoFacade(
     }
 
     private fun getOrdererId(ordererName: String): Long {
-        return 1L // TODO: orderSdk.findIdByOrdererName(ordererName).orElseThrow { BadRequestException("존재하지 않는 발주처입니다: $ordererName") }
+        return 1L // TODO: orderSdk.findIdByOrdererName(ordererName).orElseThrow { BadRequestException("wayfarer-stock.not-exist-ordererName") }
     }
 
     private fun getCustomerId(customerName: String): Long {
-        return 1L // TODO: customerSdk.findIdByCustomerName(fabricInfoRequest.customerName).orElseThrow { BadRequestException("존재하지 않는 거래처입니다: $customerName") }
+        return 1L // TODO: customerSdk.findIdByCustomerName(fabricInfoRequest.customerName).orElseThrow { BadRequestException("wayfarer-stock.not-exist-customerName") }
     }
 
     private fun getCodeId(fabricInfoRequest: FabricInfoRequest): Long {
         val fabricCode = fabricCodeService.createFabricCode(fabricInfoRequest)
-        return 1L // TODO: codeSdk.createFabricCode(fabricCode).orElseThrow { BadRequestException("원단 코드 생성에 실패했습니다.") }
+        return 1L // TODO: codeSdk.createFabricCode(fabricCode).orElseThrow { BadRequestException("wayfarer-stock.not-valid-code") }
     }
 
     private fun getOrdererName(ordererId: Long): String {
-        return "발주처 1" // TODO: orderSdk.getOrdererNameById(ordererId).orElseThrow { BadRequestException("존재하지 않는 고객사입니다: $ordererId") }
+        return "발주처 1" // TODO: orderSdk.getOrdererNameById(ordererId).orElseThrow { BadRequestException("wayfarer-stock.not-exist-ordererId") }
     }
 
     private fun getCustomerName(customerId: Long): String {
-        return "고객사 1"// TODO: customerSdk.getCustomerNameById(customerId).orElseThrow { BadRequestException("존재하지 않는 거래처입니다: $customerId") }
+        return "고객사 1"// TODO: customerSdk.getCustomerNameById(customerId).orElseThrow { BadRequestException("wayfarer-stock.not-exist-customerId") }
     }
 
     private fun getCode(codeId: Long): String {
-        return "25010990022" // TODO: codeSdk.getCodeById(fabricInfo.codeId).orElseThrow { BadRequestException("존재하지 않는 코드입니다: $codeId") }
+        return "25010990022" // TODO: codeSdk.getCodeById(fabricInfo.codeId).orElseThrow { BadRequestException("wayfarer-stock.not-exist-codeId) }
     }
 }

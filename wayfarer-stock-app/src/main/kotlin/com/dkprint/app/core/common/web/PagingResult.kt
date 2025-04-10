@@ -1,4 +1,4 @@
-package com.dkprint.app.core.web
+package com.dkprint.app.core.common.web
 
 import org.springframework.data.domain.Page
 

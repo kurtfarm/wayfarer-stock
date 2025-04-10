@@ -3,7 +3,7 @@ package com.dkprint.api.controller.fabric
 import com.dkprint.api.ApiPath
 import com.dkprint.app.fabric.dto.response.FabricInfoListResponse
 import com.dkprint.app.fabric.dto.response.FabricInfoResponse
-import com.dkprint.app.core.web.PagingResult
+import com.dkprint.app.core.common.web.PagingResult
 import com.dkprint.app.fabric.application.FabricInfoFacade
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
