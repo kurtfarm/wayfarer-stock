@@ -16,29 +16,29 @@ interface FabricInfoRepository : JpaRepository<FabricInfo, Long> {
     @Query(
         """
     SELECT f FROM FabricInfo f
-    WHERE f.registrationDate BETWEEN :startDate AND :endDate
+    WHERE (:startDate IS NULL OR f.registrationDate >= :startDate)
+    AND (:endDate IS NULL OR f.registrationDate <= :endDate)
     AND f.ordererId = :ordererId
-    """
+        """
     )
     fun searchByOrdererAndDate(
-        @Param("startDate") startDate: LocalDate,
-        @Param("endDate") endDate: LocalDate,
+        @Param("startDate") startDate: LocalDate?,
+        @Param("endDate") endDate: LocalDate?,
         @Param("ordererId") ordererId: Long,
         pageable: Pageable
     ): Page<FabricInfo>
 
     @Query(
         """
-        SELECT f FROM FabricInfo f
-        WHERE f.registrationDate BETWEEN :startDate AND :endDate
-        AND (
-            f.fabric.fabricTypeDetail LIKE %:fabricTypeName%
-        )
+    SELECT f FROM FabricInfo f
+    WHERE (:startDate IS NULL OR f.registrationDate >= :startDate)
+    AND (:endDate IS NULL OR f.registrationDate <= :endDate)
+    AND f.fabric.fabricTypeDetail LIKE %:fabricTypeName%
         """
     )
     fun searchByFabricTypeNameAndDate(
-        @Param("startDate") startDate: LocalDate,
-        @Param("endDate") endDate: LocalDate,
+        @Param("startDate") startDate: LocalDate?,
+        @Param("endDate") endDate: LocalDate?,
         @Param("fabricTypeName") fabricTypeName: String,
         pageable: Pageable
     ): Page<FabricInfo>

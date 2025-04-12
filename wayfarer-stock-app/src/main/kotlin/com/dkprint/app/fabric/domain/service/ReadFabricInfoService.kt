@@ -19,8 +19,8 @@ class ReadFabricInfoService(
 
     @Transactional(readOnly = true)
     fun getListByOrderer(
-        startDate: LocalDate,
-        endDate: LocalDate,
+        startDate: LocalDate?,
+        endDate: LocalDate?,
         ordererId: Long,
         pageable: Pageable
     ): Page<FabricInfo> {
@@ -29,8 +29,8 @@ class ReadFabricInfoService(
 
     @Transactional(readOnly = true)
     fun getListByFabricType(
-        startDate: LocalDate,
-        endDate: LocalDate,
+        startDate: LocalDate?,
+        endDate: LocalDate?,
         fabricTypeName: String,
         pageable: Pageable
     ): Page<FabricInfo> {

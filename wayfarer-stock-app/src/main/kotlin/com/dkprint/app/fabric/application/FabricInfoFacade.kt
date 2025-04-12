@@ -67,8 +67,8 @@ class FabricInfoFacade(
     fun getFabricInfoListByOrderer(
         page: Int,
         size: Int,
-        startDate: LocalDate,
-        endDate: LocalDate,
+        startDate: LocalDate?,
+        endDate: LocalDate?,
         ordererName: String
     ): PagingResult<FabricInfoListResponse> {
         val pageRequest = PageRequest.of(page, size)
@@ -85,8 +85,8 @@ class FabricInfoFacade(
     fun getFabricInfoListByType(
         page: Int,
         size: Int,
-        startDate: LocalDate,
-        endDate: LocalDate,
+        startDate: LocalDate?,
+        endDate: LocalDate?,
         fabricTypeName: String
     ): PagingResult<FabricInfoListResponse> {
         val pageRequest = PageRequest.of(page, size)
