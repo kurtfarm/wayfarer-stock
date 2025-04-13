@@ -18,6 +18,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
     runtimeOnly("mysql:mysql-connector-java:8.0.33")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     implementation("io.minio:minio:8.5.17")
