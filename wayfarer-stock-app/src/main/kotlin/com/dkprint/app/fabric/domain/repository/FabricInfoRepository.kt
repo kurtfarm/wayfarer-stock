@@ -21,12 +21,12 @@ interface FabricInfoRepository : JpaRepository<FabricInfo, Long> {
     AND f.ordererId = :ordererId
         """
     )
-    fun searchByOrdererAndDate(
+    fun findSliceByOrderer(
         @Param("startDate") startDate: LocalDate?,
         @Param("endDate") endDate: LocalDate?,
         @Param("ordererId") ordererId: Long,
         pageable: Pageable
-    ): Page<FabricInfo>
+    ): List<FabricInfo>
 
     @Query(
         """
@@ -42,6 +42,20 @@ interface FabricInfoRepository : JpaRepository<FabricInfo, Long> {
         @Param("fabricTypeName") fabricTypeName: String,
         pageable: Pageable
     ): List<FabricInfo>
+
+    @Query(
+        """
+    SELECT COUNT(f) FROM FabricInfo f
+    WHERE (:startDate IS NULL OR f.registrationDate >= :startDate)
+    AND (:endDate IS NULL OR f.registrationDate <= :endDate)
+    AND f.ordererId = :ordererId
+    """
+    )
+    fun countByOrderer(
+        @Param("startDate") startDate: LocalDate?,
+        @Param("endDate") endDate: LocalDate?,
+        @Param("ordererId") ordererId: Long
+    ): Long
 
     @Query(
         """

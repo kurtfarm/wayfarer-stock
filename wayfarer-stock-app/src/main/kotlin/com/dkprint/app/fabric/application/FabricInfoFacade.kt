@@ -28,6 +28,7 @@ class FabricInfoFacade(
             getCustomerId(fabricInfoRequest.customerName),
             getCodeId(fabricInfoRequest),
         )
+        fabricInfoCountCacheService.evictAllCountsCache()
     }
 
     fun updateFabric(id: Long, fabricInfoRequest: FabricInfoRequest) {
@@ -43,6 +44,7 @@ class FabricInfoFacade(
 
     fun deleteFabric(id: Long) {
         editFabricInfoService.deleteFabricInfo(id);
+        fabricInfoCountCacheService.evictAllCountsCache()
     }
 
     fun getDetailedFabricInfo(id: Long): FabricInfoResponse {
@@ -75,7 +77,8 @@ class FabricInfoFacade(
     ): PagingResult<FabricInfoListResponse> {
         val pageRequest = PageRequest.of(page, size)
         val ordererId = getOrdererId(ordererName)
-        val page = readFabricInfoService.getListByOrderer(startDate, endDate, ordererId, pageRequest).map {
+        val total = fabricInfoCountCacheService.getCachedCountByOrderer(startDate, endDate, ordererId)
+        val page = readFabricInfoService.getListByOrderer(startDate, endDate, ordererId, pageRequest, total).map {
             FabricInfoListResponse.of(
                 it,
                 ordererName,
@@ -92,19 +95,14 @@ class FabricInfoFacade(
         fabricTypeName: String
     ): PagingResult<FabricInfoListResponse> {
         val pageRequest = PageRequest.of(page, size)
-        val total = fabricInfoCountCacheService.getCachedCount(startDate, endDate, fabricTypeName)
-        val pageResult = readFabricInfoService.getListByFabricType(
-            startDate,
-            endDate,
-            fabricTypeName,
-            pageRequest,
-            total
-        ).map {
-            FabricInfoListResponse.of(
-                it,
-                getOrdererName(it.ordererId),
-            )
-        }
+        val total = fabricInfoCountCacheService.getCachedCountByType(startDate, endDate, fabricTypeName)
+        val pageResult =
+            readFabricInfoService.getListByFabricType(startDate, endDate, fabricTypeName, pageRequest, total).map {
+                FabricInfoListResponse.of(
+                    it,
+                    getOrdererName(it.ordererId),
+                )
+            }
 
         return PagingResult.from(pageResult)
     }

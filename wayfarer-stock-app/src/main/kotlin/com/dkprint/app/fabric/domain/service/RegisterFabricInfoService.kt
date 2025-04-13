@@ -4,7 +4,6 @@ import com.dkprint.app.fabric.domain.entity.FabricInfo
 import com.dkprint.app.fabric.domain.repository.FabricInfoRepository
 import com.dkprint.app.fabric.dto.request.FabricInfoRequest
 import jakarta.transaction.Transactional
-import org.springframework.cache.annotation.CacheEvict
 import org.springframework.stereotype.Service
 
 @Service
@@ -12,10 +11,6 @@ class RegisterFabricInfoService(
     private val fabricInfoRepository: FabricInfoRepository,
 ) {
     @Transactional
-    @CacheEvict(
-        value = ["fabricTypeCount"],
-        allEntries = true
-    )
     fun createFabricInfo(
         fabricInfoRequest: FabricInfoRequest,
         ordererId: Long,

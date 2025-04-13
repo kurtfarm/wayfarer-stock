@@ -2,7 +2,6 @@ package com.dkprint.app.fabric.domain.service
 
 import com.dkprint.app.fabric.domain.entity.FabricInfo
 import com.dkprint.app.fabric.domain.repository.FabricInfoRepository
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
@@ -24,9 +23,12 @@ class ReadFabricInfoService(
         startDate: LocalDate?,
         endDate: LocalDate?,
         ordererId: Long,
-        pageable: Pageable
+        pageable: Pageable,
+        total: Long
     ): Page<FabricInfo> {
-        return fabricInfoRepository.searchByOrdererAndDate(startDate, endDate, ordererId, pageable)
+        val content = fabricInfoRepository.findSliceByOrderer(startDate, endDate, ordererId, pageable)
+
+        return PageImpl(content, pageable, total)
     }
 
     fun getListByFabricType(
