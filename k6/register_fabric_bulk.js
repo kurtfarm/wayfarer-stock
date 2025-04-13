@@ -4,8 +4,16 @@ import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
 export const options = {
     vus: 50,               // 동시에 데이터를 등록할 사용자 수
-    iterations: 1000,      // 총 생성할 데이터 수 (50 VUs x 20회 = 1000건)
+    iterations: 255598,
 };
+
+const fabricTypeDescriptions = [
+    "PET", "양PET", "OPP", "양OPP", "무광OPP",
+    "NY", "양NY", "AL", "투명LLD", "옥텐LLD",
+    "유백LLD", "옥텐유백LLD", "증착PET", "CPP",
+    "증착CPP", "이지컷LLD", "이지필LLD", "CPR1",
+    "CPR2", "CPR3", "CPR4", "직접입력"
+];
 
 export default function () {
     const BASE_URL = 'http://localhost:8080'; // 네 서버 주소로 변경
@@ -16,12 +24,14 @@ export default function () {
         return date.toISOString().split('T')[0]; // yyyy-mm-dd
     };
 
+    const fabricTypeName = fabricTypeDescriptions[Math.floor(Math.random() * fabricTypeDescriptions.length)];
+
     const payload = JSON.stringify({
         registrationDate: randomDate(Math.floor(Math.random() * 100)),
         expectedArrivalDate: randomDate(Math.floor(Math.random() * 30)),
         ordererName: `발주처 ${Math.floor(Math.random() * 5) + 1}`,
         customerName: `고객사 ${Math.floor(Math.random() * 10) + 1}`,
-        fabricTypeName: '면직물',
+        fabricTypeName: fabricTypeName,
         width: 100,
         length: 20.5,
         thickness: 0.3,
@@ -40,5 +50,5 @@ export default function () {
         '응답이 true': (r) => JSON.parse(r.body).data === true,
     });
 
-    sleep(0.1); // 살짝 쉬면서 요청
+    sleep(0.1);
 }

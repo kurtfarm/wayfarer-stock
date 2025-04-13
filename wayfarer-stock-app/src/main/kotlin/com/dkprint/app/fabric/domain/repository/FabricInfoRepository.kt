@@ -33,7 +33,7 @@ interface FabricInfoRepository : JpaRepository<FabricInfo, Long> {
     SELECT f FROM FabricInfo f
     WHERE (:startDate IS NULL OR f.registrationDate >= :startDate)
     AND (:endDate IS NULL OR f.registrationDate <= :endDate)
-    AND f.fabric.fabricTypeDetail LIKE %:fabricTypeName%
+    AND f.fabric.fabricTypeDetail LIKE CONCAT(:fabricTypeName, '%')
         """
     )
     fun searchByFabricTypeNameAndDate(

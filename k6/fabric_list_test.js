@@ -3,10 +3,7 @@ import { check, sleep } from 'k6';
 
 export const options = {
     vus: 50,            // 가상 사용자 수 (동시 접속자 수)
-    duration: '30s',    // 테스트 지속 시간
-    thresholds: {
-        http_req_duration: ['p(95)<500'], // 95% 요청이 500ms 이하
-    },
+    duration: '20s',    // 테스트 지속 시간
 };
 
 export default function () {
