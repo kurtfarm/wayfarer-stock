@@ -3,6 +3,7 @@ package com.dkprint.app.fabric.application
 import com.dkprint.app.core.common.web.PagingResult
 import com.dkprint.app.fabric.domain.service.EditFabricInfoService
 import com.dkprint.app.fabric.domain.service.FabricCodeService
+import com.dkprint.app.fabric.domain.service.FabricInfoCountCacheService
 import com.dkprint.app.fabric.domain.service.ReadFabricInfoService
 import com.dkprint.app.fabric.domain.service.RegisterFabricInfoService
 import com.dkprint.app.fabric.dto.request.FabricInfoRequest
@@ -18,6 +19,7 @@ class FabricInfoFacade(
     private val editFabricInfoService: EditFabricInfoService,
     private val readFabricInfoService: ReadFabricInfoService,
     private val fabricCodeService: FabricCodeService,
+    private val fabricInfoCountCacheService: FabricInfoCountCacheService
 ) {
     fun registerFabric(fabricInfoRequest: FabricInfoRequest) {
         registerFabricInfoService.createFabricInfo(
@@ -90,14 +92,23 @@ class FabricInfoFacade(
         fabricTypeName: String
     ): PagingResult<FabricInfoListResponse> {
         val pageRequest = PageRequest.of(page, size)
-        val page = readFabricInfoService.getListByFabricType(startDate, endDate, fabricTypeName, pageRequest).map {
+        val total = fabricInfoCountCacheService.getCachedCount(startDate, endDate, fabricTypeName)
+        val pageResult = readFabricInfoService.getListByFabricType(
+            startDate,
+            endDate,
+            fabricTypeName,
+            pageRequest,
+            total
+        ).map {
             FabricInfoListResponse.of(
                 it,
                 getOrdererName(it.ordererId),
             )
         }
-        return PagingResult.from(page)
+
+        return PagingResult.from(pageResult)
     }
+
 
     private fun getOrdererId(ordererName: String): Long {
         return 1L // TODO: orderSdk.findIdByOrdererName(ordererName).orElseThrow { BadRequestException("wayfarer-stock.not-exist-ordererName") }

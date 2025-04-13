@@ -2,7 +2,9 @@ package com.dkprint.app.fabric.domain.service
 
 import com.dkprint.app.fabric.domain.entity.FabricInfo
 import com.dkprint.app.fabric.domain.repository.FabricInfoRepository
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,16 +29,17 @@ class ReadFabricInfoService(
         return fabricInfoRepository.searchByOrdererAndDate(startDate, endDate, ordererId, pageable)
     }
 
-    @Transactional(readOnly = true)
     fun getListByFabricType(
         startDate: LocalDate?,
         endDate: LocalDate?,
         fabricTypeName: String,
-        pageable: Pageable
+        pageable: Pageable,
+        total: Long
     ): Page<FabricInfo> {
-        return fabricInfoRepository.searchByFabricTypeNameAndDate(startDate, endDate, fabricTypeName, pageable)
-    }
+        val content = fabricInfoRepository.findSliceByType(startDate, endDate, fabricTypeName, pageable)
 
+        return PageImpl(content, pageable, total)
+    }
 
     fun getFabricInfo(id: Long): FabricInfo {
         return fabricInfoRepository.findById(id).orElseThrow { IllegalArgumentException("존재하지 않는 원단 정보입니다. id: $id") }

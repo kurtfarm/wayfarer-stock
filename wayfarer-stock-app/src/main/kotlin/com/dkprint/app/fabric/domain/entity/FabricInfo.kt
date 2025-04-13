@@ -9,6 +9,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.Index
 import jakarta.persistence.Table
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.SQLRestriction
@@ -18,7 +19,12 @@ import java.time.LocalDate
 @Entity
 @SQLDelete(sql = "UPDATE fabric_info SET is_deleted = true WHERE id = ?")
 @SQLRestriction("is_deleted = false")
-@Table(name = "fabric_info")
+@Table(
+    name = "fabric_info",
+    indexes = [
+        Index(name = "idx_fabric_type_detail", columnList = "fabric_type_detail")
+    ]
+)
 class FabricInfo(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

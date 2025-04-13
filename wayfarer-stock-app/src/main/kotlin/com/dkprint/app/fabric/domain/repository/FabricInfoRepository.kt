@@ -34,12 +34,26 @@ interface FabricInfoRepository : JpaRepository<FabricInfo, Long> {
     WHERE (:startDate IS NULL OR f.registrationDate >= :startDate)
     AND (:endDate IS NULL OR f.registrationDate <= :endDate)
     AND f.fabric.fabricTypeDetail LIKE CONCAT(:fabricTypeName, '%')
-        """
+    """
     )
-    fun searchByFabricTypeNameAndDate(
+    fun findSliceByType(
         @Param("startDate") startDate: LocalDate?,
         @Param("endDate") endDate: LocalDate?,
         @Param("fabricTypeName") fabricTypeName: String,
         pageable: Pageable
-    ): Page<FabricInfo>
+    ): List<FabricInfo>
+
+    @Query(
+        """
+    SELECT COUNT(f) FROM FabricInfo f
+    WHERE (:startDate IS NULL OR f.registrationDate >= :startDate)
+    AND (:endDate IS NULL OR f.registrationDate <= :endDate)
+    AND f.fabric.fabricTypeDetail LIKE CONCAT(:fabricTypeName, '%')
+    """
+    )
+    fun countByType(
+        @Param("startDate") startDate: LocalDate?,
+        @Param("endDate") endDate: LocalDate?,
+        @Param("fabricTypeName") fabricTypeName: String,
+    ): Long
 }
