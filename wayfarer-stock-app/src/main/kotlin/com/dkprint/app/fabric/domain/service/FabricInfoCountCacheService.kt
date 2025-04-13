@@ -11,6 +11,11 @@ import java.time.LocalDate
 class FabricInfoCountCacheService(
     private val fabricInfoRepository: FabricInfoRepository
 ) {
+    @Cacheable(value = ["fabricTotalCount"])
+    fun getCachedTotalCount(): Long {
+        return fabricInfoRepository.countAll()
+    }
+
     @Cacheable(
         value = ["fabricOrdererCount"],
         key = "{#startDate, #endDate, #ordererId}"
@@ -33,6 +38,7 @@ class FabricInfoCountCacheService(
 
     @Caching(
         evict = [
+            CacheEvict(value = ["fabricTotalCount"], allEntries = true),
             CacheEvict(value = ["fabricOrdererCount"], allEntries = true),
             CacheEvict(value = ["fabricTypeCount"], allEntries = true)
         ]

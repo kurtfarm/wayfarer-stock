@@ -13,9 +13,9 @@ import java.time.LocalDate
 class ReadFabricInfoService(
     private val fabricInfoRepository: FabricInfoRepository
 ) {
-    @Transactional(readOnly = true)
-    fun getList(pageable: Pageable): Page<FabricInfo> {
-        return fabricInfoRepository.findAllByOrderByIdDesc(pageable)
+    fun getList(pageable: Pageable, total: Long): Page<FabricInfo> {
+        val content = fabricInfoRepository.findAllByOrderByIdDesc(pageable)
+        return PageImpl(content, pageable, total)
     }
 
     @Transactional(readOnly = true)

@@ -59,7 +59,8 @@ class FabricInfoFacade(
 
     fun getFabricInfoList(page: Int, size: Int): PagingResult<FabricInfoListResponse> {
         val pageRequest = PageRequest.of(page, size)
-        val page = readFabricInfoService.getList(pageRequest).map {
+        val total = fabricInfoCountCacheService.getCachedTotalCount()
+        val page = readFabricInfoService.getList(pageRequest, total).map {
             FabricInfoListResponse.of(
                 it,
                 getOrdererName(it.ordererId),

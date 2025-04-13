@@ -11,7 +11,7 @@ import java.time.LocalDate
 
 @Repository
 interface FabricInfoRepository : JpaRepository<FabricInfo, Long> {
-    fun findAllByOrderByIdDesc(pageable: Pageable): Page<FabricInfo>
+    fun findAllByOrderByIdDesc(pageable: Pageable): List<FabricInfo>
 
     @Query(
         """
@@ -42,6 +42,9 @@ interface FabricInfoRepository : JpaRepository<FabricInfo, Long> {
         @Param("fabricTypeName") fabricTypeName: String,
         pageable: Pageable
     ): List<FabricInfo>
+
+    @Query("SELECT COUNT(f) FROM FabricInfo f")
+    fun countAll(): Long
 
     @Query(
         """
