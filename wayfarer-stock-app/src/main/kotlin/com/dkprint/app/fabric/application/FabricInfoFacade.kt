@@ -3,6 +3,7 @@ package com.dkprint.app.fabric.application
 import com.dkprint.app.core.common.web.PagingResult
 import com.dkprint.app.fabric.domain.service.EditFabricInfoService
 import com.dkprint.app.fabric.domain.service.FabricCodeService
+import com.dkprint.app.fabric.domain.service.FabricInfoCountCacheService
 import com.dkprint.app.fabric.domain.service.ReadFabricInfoService
 import com.dkprint.app.fabric.domain.service.RegisterFabricInfoService
 import com.dkprint.app.fabric.dto.request.FabricInfoRequest
@@ -18,6 +19,7 @@ class FabricInfoFacade(
     private val editFabricInfoService: EditFabricInfoService,
     private val readFabricInfoService: ReadFabricInfoService,
     private val fabricCodeService: FabricCodeService,
+    private val fabricInfoCountCacheService: FabricInfoCountCacheService
 ) {
     fun registerFabric(fabricInfoRequest: FabricInfoRequest) {
         registerFabricInfoService.createFabricInfo(
@@ -26,6 +28,7 @@ class FabricInfoFacade(
             getCustomerId(fabricInfoRequest.customerName),
             getCodeId(fabricInfoRequest),
         )
+        fabricInfoCountCacheService.evictAllCountsCache()
     }
 
     fun updateFabric(id: Long, fabricInfoRequest: FabricInfoRequest) {
@@ -41,6 +44,7 @@ class FabricInfoFacade(
 
     fun deleteFabric(id: Long) {
         editFabricInfoService.deleteFabricInfo(id);
+        fabricInfoCountCacheService.evictAllCountsCache()
     }
 
     fun getDetailedFabricInfo(id: Long): FabricInfoResponse {
@@ -55,7 +59,8 @@ class FabricInfoFacade(
 
     fun getFabricInfoList(page: Int, size: Int): PagingResult<FabricInfoListResponse> {
         val pageRequest = PageRequest.of(page, size)
-        val page = readFabricInfoService.getList(pageRequest).map {
+        val total = fabricInfoCountCacheService.getCachedTotalCount()
+        val page = readFabricInfoService.getList(pageRequest, total).map {
             FabricInfoListResponse.of(
                 it,
                 getOrdererName(it.ordererId),
@@ -67,8 +72,8 @@ class FabricInfoFacade(
     fun getFabricInfoListByOrderer(
         page: Int,
         size: Int,
-        startDate: LocalDate,
-        endDate: LocalDate,
+        startDate: LocalDate?,
+        endDate: LocalDate?,
         ordererName: String
     ): PagingResult<FabricInfoListResponse> {
         val pageRequest = PageRequest.of(page, size)
@@ -85,19 +90,22 @@ class FabricInfoFacade(
     fun getFabricInfoListByType(
         page: Int,
         size: Int,
-        startDate: LocalDate,
-        endDate: LocalDate,
+        startDate: LocalDate?,
+        endDate: LocalDate?,
         fabricTypeName: String
     ): PagingResult<FabricInfoListResponse> {
         val pageRequest = PageRequest.of(page, size)
-        val page = readFabricInfoService.getListByFabricType(startDate, endDate, fabricTypeName, pageRequest).map {
-            FabricInfoListResponse.of(
-                it,
-                getOrdererName(it.ordererId),
-            )
-        }
-        return PagingResult.from(page)
+        val pageResult =
+            readFabricInfoService.getListByFabricType(startDate, endDate, fabricTypeName, pageRequest).map {
+                FabricInfoListResponse.of(
+                    it,
+                    getOrdererName(it.ordererId),
+                )
+            }
+
+        return PagingResult.from(pageResult)
     }
+
 
     private fun getOrdererId(ordererName: String): Long {
         return 1L // TODO: orderSdk.findIdByOrdererName(ordererName).orElseThrow { BadRequestException("wayfarer-stock.not-exist-ordererName") }
