@@ -23,25 +23,19 @@ class ReadFabricInfoService(
         startDate: LocalDate?,
         endDate: LocalDate?,
         ordererId: Long,
-        pageable: Pageable,
-        total: Long
-    ): Page<FabricInfo> {
-        val content = fabricInfoRepository.findSliceByOrderer(startDate, endDate, ordererId, pageable)
+        pageable: Pageable
+    ): Page<FabricInfo> =
+        fabricInfoRepository.searchByOrdererAndDate(startDate, endDate, ordererId, pageable)
 
-        return PageImpl(content, pageable, total)
-    }
 
     fun getListByFabricType(
         startDate: LocalDate?,
         endDate: LocalDate?,
         fabricTypeName: String,
         pageable: Pageable,
-        total: Long
-    ): Page<FabricInfo> {
-        val content = fabricInfoRepository.findSliceByType(startDate, endDate, fabricTypeName, pageable)
+    ): Page<FabricInfo> =
+        fabricInfoRepository.searchByFabricTypeNameAndDate(startDate, endDate, fabricTypeName, pageable)
 
-        return PageImpl(content, pageable, total)
-    }
 
     fun getFabricInfo(id: Long): FabricInfo {
         return fabricInfoRepository.findById(id).orElseThrow { IllegalArgumentException("존재하지 않는 원단 정보입니다. id: $id") }

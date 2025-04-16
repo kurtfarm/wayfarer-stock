@@ -21,27 +21,28 @@ interface FabricInfoRepository : JpaRepository<FabricInfo, Long> {
     AND f.ordererId = :ordererId
         """
     )
-    fun findSliceByOrderer(
+    fun searchByOrdererAndDate(
         @Param("startDate") startDate: LocalDate?,
         @Param("endDate") endDate: LocalDate?,
         @Param("ordererId") ordererId: Long,
         pageable: Pageable
-    ): List<FabricInfo>
+    ): Page<FabricInfo>
 
     @Query(
         """
     SELECT f FROM FabricInfo f
     WHERE (:startDate IS NULL OR f.registrationDate >= :startDate)
     AND (:endDate IS NULL OR f.registrationDate <= :endDate)
+    AND f.fabric.fabricTypeDetail LIKE %:fabricTypeName%
     AND f.fabric.fabricTypeDetail LIKE CONCAT(:fabricTypeName, '%')
-    """
+        """
     )
-    fun findSliceByType(
+    fun searchByFabricTypeNameAndDate(
         @Param("startDate") startDate: LocalDate?,
         @Param("endDate") endDate: LocalDate?,
         @Param("fabricTypeName") fabricTypeName: String,
         pageable: Pageable
-    ): List<FabricInfo>
+    ): Page<FabricInfo>
 
     @Query("SELECT COUNT(f) FROM FabricInfo f")
     fun countAll(): Long
