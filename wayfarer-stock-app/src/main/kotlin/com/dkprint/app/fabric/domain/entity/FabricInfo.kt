@@ -53,7 +53,7 @@ class FabricInfo(
     @Column(name = "comment", nullable = true)
     var comment: String?,
 
-    @Column(name = "is_used", nullable = true)
+    @Column(name = "status", nullable = true)
     var status: UsageStatus = UsageStatus.INACTIVE,
 ) : BaseEntity() {
     companion object {
