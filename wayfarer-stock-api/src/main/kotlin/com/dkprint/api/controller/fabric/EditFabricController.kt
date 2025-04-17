@@ -4,6 +4,7 @@ import com.dkprint.api.ApiPath
 import com.dkprint.app.core.common.web.response.ApiResponse
 import com.dkprint.app.fabric.application.FabricInfoFacade
 import com.dkprint.app.fabric.dto.request.FabricInfoRequest
+import com.dkprint.app.fabric.dto.request.FabricMultiDeleteRequest
 import com.dkprint.app.fabric.dto.request.FabricUsageStatusRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -46,6 +47,19 @@ class EditFabricController(
         fabricInfoFacade.deleteFabric(id)
         return ApiResponse.success(true)
     }
+
+    @Operation(
+        summary = "원단 다중 삭제",
+        description = "여러 개의 원단 정보를 한 번에 삭제한다."
+    )
+    @DeleteMapping(ApiPath.Fabric.DELETE_MULTI)
+    fun deleteMultipleFabrics(
+        @RequestBody request: FabricMultiDeleteRequest
+    ): ApiResponse<Boolean> {
+        fabricInfoFacade.deleteFabrics(request.ids)
+        return ApiResponse.success(true)
+    }
+
 
     @Operation(
         summary = "원단 상태 정보 변경",
