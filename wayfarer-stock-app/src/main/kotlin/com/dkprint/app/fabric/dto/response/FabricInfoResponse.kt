@@ -2,6 +2,7 @@ package com.dkprint.app.fabric.dto.response
 
 import com.dkprint.app.core.util.DateFormatUtil
 import com.dkprint.app.fabric.domain.entity.FabricInfo
+import com.dkprint.app.fabric.domain.entity.value.UsageStatus
 
 data class FabricInfoResponse(
     val registrationDate: String,
@@ -15,7 +16,7 @@ data class FabricInfoResponse(
     val thickness: Double,
     val quantity: Int,
     val comment: String?,
-    val isUsed: Boolean,
+    val status: UsageStatus,
 ) {
     companion object {
         fun of(
@@ -37,7 +38,7 @@ data class FabricInfoResponse(
                 thickness = fabricInfo.fabric.thickness,
                 quantity = fabricInfo.fabric.quantity,
                 comment = fabricInfo.comment,
-                isUsed = fabricInfo.isUsed,
+                status = fabricInfo.status,
             )
         }
     }
