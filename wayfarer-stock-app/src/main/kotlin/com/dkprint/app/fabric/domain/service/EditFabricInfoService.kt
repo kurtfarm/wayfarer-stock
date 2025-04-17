@@ -28,6 +28,11 @@ class EditFabricInfoService(
     }
 
     @Transactional
+    fun deleteMultipleFabricInfo(ids: List<Long>) {
+        fabricInfoRepository.deleteAllByIdInBatch(ids)
+    }
+
+    @Transactional
     fun updateUsageStatus(fabricInfo: FabricInfo, status: UsageStatus) {
         fabricInfo.status = status
     }

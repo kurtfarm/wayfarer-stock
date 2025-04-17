@@ -48,6 +48,11 @@ class FabricInfoFacade(
         fabricInfoCountCacheService.evictAllCountsCache()
     }
 
+    fun deleteFabrics(ids: List<Long>) {
+        editFabricInfoService.deleteMultipleFabricInfo(ids)
+        fabricInfoCountCacheService.evictAllCountsCache()
+    }
+
     fun getDetailedFabricInfo(id: Long): FabricInfoResponse {
         val fabricInfo = readFabricInfoService.getFabricInfo(id)
         return FabricInfoResponse.of(
