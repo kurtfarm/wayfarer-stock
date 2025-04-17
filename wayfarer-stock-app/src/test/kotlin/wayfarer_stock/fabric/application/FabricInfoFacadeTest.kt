@@ -6,6 +6,7 @@ import com.dkprint.app.fabric.domain.entity.FabricInfo
 import com.dkprint.app.fabric.domain.entity.FabricType
 import com.dkprint.app.fabric.domain.service.EditFabricInfoService
 import com.dkprint.app.fabric.domain.service.FabricCodeService
+import com.dkprint.app.fabric.domain.service.FabricInfoCountCacheService
 import com.dkprint.app.fabric.domain.service.ReadFabricInfoService
 import com.dkprint.app.fabric.domain.service.RegisterFabricInfoService
 import com.dkprint.app.fabric.dto.response.FabricInfoListResponse
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.verify
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
@@ -35,6 +37,9 @@ class FabricInfoFacadeListTest {
 
     @Mock
     lateinit var fabricCodeService: FabricCodeService
+
+    @Mock
+    lateinit var fabricInfoCountCacheService: FabricInfoCountCacheService
 
     @InjectMocks
     lateinit var fabricInfoFacade: FabricInfoFacade
@@ -63,8 +68,12 @@ class FabricInfoFacadeListTest {
     fun `전체 원단 리스트를 페이징 조회한다`() {
         // given
         val pageRequest = PageRequest.of(0, 10)
-        val page = PageImpl(listOf(dummyFabricInfo()))
-        given(readFabricInfoService.getList(pageRequest)).willReturn(page)
+        val total = 1L
+        val dummyFabric = dummyFabricInfo()
+        val page = PageImpl(listOf(dummyFabric), pageRequest, total)
+
+        given(fabricInfoCountCacheService.getCachedTotalCount()).willReturn(total)
+        given(readFabricInfoService.getList(pageRequest, total)).willReturn(page)
 
         // when
         val result = fabricInfoFacade.getFabricInfoList(0, 10)
@@ -107,6 +116,19 @@ class FabricInfoFacadeListTest {
         // then
         assertThat(result.content).hasSize(1)
         assertThat(result.content[0]).isInstanceOf(FabricInfoListResponse::class.java)
+    }
+
+    @Test
+    fun `원단 다중 삭제를 수행한다`() {
+        // given
+        val ids = listOf(1L, 2L, 3L)
+
+        // when
+        fabricInfoFacade.deleteFabrics(ids)
+
+        // then
+        verify(editFabricInfoService).deleteMultipleFabricInfo(ids)
+        verify(fabricInfoCountCacheService).evictAllCountsCache()
     }
 
     private fun dummyFabricInfo(): FabricInfo {
