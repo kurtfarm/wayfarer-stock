@@ -51,6 +51,9 @@ class FabricInfo(
 
     @Column(name = "comment", nullable = true)
     var comment: String?,
+
+    @Column(name = "is_used", nullable = true)
+    var isUsed: Boolean = false,
 ) : BaseEntity() {
     companion object {
         fun of(fabricInfoRequest: FabricInfoRequest, ordererId: Long, customerId: Long, codeId: Long): FabricInfo {
