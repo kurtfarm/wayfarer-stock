@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
-@Tag(name = "Fabric", description = "Edit Fabric Info API")
+@Tag(name = "Fabric (UPDATE & DELETE)", description = "Edit Fabric Info API")
 @RestController
 class EditFabricController(
     private val fabricInfoFacade: FabricInfoFacade,

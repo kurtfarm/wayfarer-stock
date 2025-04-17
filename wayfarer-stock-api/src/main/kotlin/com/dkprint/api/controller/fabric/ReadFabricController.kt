@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 
-@Tag(name = "Fabric", description = "Read Fabric Info API")
+@Tag(name = "Fabric (READ)", description = "Read Fabric Info API")
 @RestController
 class ReadFabricController(
     private val fabricInfoFacade: FabricInfoFacade,
