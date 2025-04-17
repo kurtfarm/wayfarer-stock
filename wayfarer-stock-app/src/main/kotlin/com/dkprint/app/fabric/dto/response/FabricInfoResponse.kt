@@ -15,6 +15,7 @@ data class FabricInfoResponse(
     val thickness: Double,
     val quantity: Int,
     val comment: String?,
+    val isUsed: Boolean,
 ) {
     companion object {
         fun of(
@@ -36,6 +37,7 @@ data class FabricInfoResponse(
                 thickness = fabricInfo.fabric.thickness,
                 quantity = fabricInfo.fabric.quantity,
                 comment = fabricInfo.comment,
+                isUsed = fabricInfo.isUsed,
             )
         }
     }
