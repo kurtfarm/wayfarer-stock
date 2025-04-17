@@ -51,7 +51,7 @@ class EditFabricController(
         summary = "원단 상태 정보 변경",
         description = "의뢰서/사양서에서 원단이 사용되는 경우 상태를 ACTIVE, 사용되지 않는 경우에는 INACTIVE로 변경"
     )
-    @PatchMapping("/{id}/usage-status")
+    @PatchMapping(ApiPath.Fabric.SET_USAGE_STATUS)
     fun updateUsageStatus(
         @PathVariable id: Long,
         @RequestBody request: FabricUsageStatusRequest
