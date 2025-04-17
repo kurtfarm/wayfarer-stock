@@ -12,6 +12,7 @@ data class FabricInfoListResponse(
     val thickness: Double,
     val quantity: Int,
     val expectedArrivalDate: String,
+    val isUsed: Boolean,
 ) {
     companion object {
         fun of(fabricInfo: FabricInfo, ordererName: String): FabricInfoListResponse {
@@ -24,6 +25,7 @@ data class FabricInfoListResponse(
                 thickness = fabricInfo.fabric.thickness,
                 quantity = fabricInfo.fabric.quantity,
                 expectedArrivalDate = DateFormatUtil.formatWithDayOfWeek(fabricInfo.expectedArrivalDate),
+                isUsed = fabricInfo.isUsed,
             )
         }
     }
