@@ -23,23 +23,25 @@ class FabricInfoFacade(
     private val fabricInfoCountCacheService: FabricInfoCountCacheService
 ) {
     fun registerFabric(fabricInfoRequest: FabricInfoRequest) {
+        val fabricCode = fabricCodeService.createFabricCode(fabricInfoRequest)
         registerFabricInfoService.createFabricInfo(
             fabricInfoRequest,
             getOrdererId(fabricInfoRequest.ordererName),
             getCustomerId(fabricInfoRequest.customerName),
-            getCodeId(fabricInfoRequest),
+            getCodeId(fabricCode),
         )
         fabricInfoCountCacheService.evictAllCountsCache()
     }
 
     fun updateFabric(id: Long, fabricInfoRequest: FabricInfoRequest) {
-        val fabricInfo = readFabricInfoService.getFabricInfo(id);
+        val fabricInfo = readFabricInfoService.getFabricInfo(id)
+        val fabricCode = fabricCodeService.createFabricCode(fabricInfoRequest)
         editFabricInfoService.updateFabricInfo(
             fabricInfo,
             fabricInfoRequest,
             getOrdererId(fabricInfoRequest.ordererName),
             getCustomerId(fabricInfoRequest.customerName),
-            getCodeId(fabricInfoRequest),
+            getCodeId(fabricCode),
         )
     }
 
@@ -120,8 +122,9 @@ class FabricInfoFacade(
         fabricCode: String
     ): PagingResult<FabricInfoListResponse> {
         val pageRequest = PageRequest.of(page, size)
+        val codeId = getCodeId(fabricCode)
         val pageResult =
-            readFabricInfoService.getListByFabricCode(startDate, endDate, fabricCode, pageRequest).map {
+            readFabricInfoService.getListByFabricCode(startDate, endDate, codeId, pageRequest).map {
                 FabricInfoListResponse.of(
                     it,
                     getOrdererName(it.ordererId),
@@ -147,8 +150,7 @@ class FabricInfoFacade(
         return 1L // TODO: customerSdk.findIdByCustomerName(fabricInfoRequest.customerName).orElseThrow { BadRequestException("wayfarer-stock.not-exist-customerName") }
     }
 
-    private fun getCodeId(fabricInfoRequest: FabricInfoRequest): Long {
-        val fabricCode = fabricCodeService.createFabricCode(fabricInfoRequest)
+    private fun getCodeId(fabricCode: String): Long {
         return 1L // TODO: codeSdk.createFabricCode(fabricCode).orElseThrow { BadRequestException("wayfarer-stock.not-valid-code") }
     }
 

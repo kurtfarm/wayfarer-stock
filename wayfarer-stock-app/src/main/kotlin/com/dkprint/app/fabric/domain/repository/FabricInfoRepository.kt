@@ -44,6 +44,22 @@ interface FabricInfoRepository : JpaRepository<FabricInfo, Long> {
         pageable: Pageable
     ): Page<FabricInfo>
 
+    @Query(
+        """
+    SELECT f FROM FabricInfo f
+    WHERE (:startDate IS NULL OR f.registrationDate >= :startDate)
+    AND (:endDate IS NULL OR f.registrationDate <= :endDate)
+    AND f.codeId = :codeId
+        """
+    )
+    fun searchByFabricCodeAndDate(
+        @Param("startDate") startDate: LocalDate?,
+        @Param("endDate") endDate: LocalDate?,
+        @Param("codeId") codeId: Long,
+        pageable: Pageable
+    ): Page<FabricInfo>
+
+
     @Query("SELECT COUNT(f) FROM FabricInfo f")
     fun countAll(): Long
 
