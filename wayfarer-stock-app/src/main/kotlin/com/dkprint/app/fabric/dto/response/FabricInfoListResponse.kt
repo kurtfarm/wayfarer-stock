@@ -17,7 +17,7 @@ data class FabricInfoListResponse(
     val status: UsageStatus,
 ) {
     companion object {
-        fun of(fabricInfo: FabricInfo, fabricCode: String, ordererName: String): FabricInfoListResponse {
+        fun of(fabricInfo: FabricInfo, ordererName: String, fabricCode: String, ): FabricInfoListResponse {
             return FabricInfoListResponse(
                 id = fabricInfo.id,
                 fabricTypeName = fabricInfo.fabric.fabricTypeDetail,
