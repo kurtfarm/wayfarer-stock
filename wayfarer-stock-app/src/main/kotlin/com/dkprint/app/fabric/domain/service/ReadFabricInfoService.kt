@@ -36,6 +36,13 @@ class ReadFabricInfoService(
     ): Page<FabricInfo> =
         fabricInfoRepository.searchByFabricTypeNameAndDate(startDate, endDate, fabricTypeName, pageable)
 
+    fun getListByFabricCode(
+        startDate: LocalDate?,
+        endDate: LocalDate?,
+        fabricCode: String,
+        pageable: Pageable,
+    ): Page<FabricInfo> =
+        fabricInfoRepository.searchByFabricCodeAndDate(startDate, endDate, fabricCode, pageable)
 
     fun getFabricInfo(id: Long): FabricInfo {
         return fabricInfoRepository.findById(id).orElseThrow { IllegalArgumentException("존재하지 않는 원단 정보입니다. id: $id") }
