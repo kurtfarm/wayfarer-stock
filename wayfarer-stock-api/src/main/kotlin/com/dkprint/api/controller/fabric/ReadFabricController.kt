@@ -69,4 +69,19 @@ class ReadFabricController(
     ): PagingResult<FabricInfoListResponse> {
         return fabricInfoFacade.getFabricInfoListByType(page, size, startDate, endDate, fabricTypeName)
     }
+
+    @Operation(
+        summary = "원단 리스트 검색 (기준: 원단코드)",
+        description = "원단코드를 기준으로 원단 리스트를 검색한다."
+    )
+    @GetMapping(ApiPath.Fabric.SEARCH_BY_CODE)
+    fun readFabricInfoListByCode(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "15") size: Int,
+        @RequestParam(required = false) startDate: LocalDate?,
+        @RequestParam(required = false) endDate: LocalDate?,
+        @RequestParam fabricCode: String,
+    ): PagingResult<FabricInfoListResponse> {
+        return fabricInfoFacade.getFabricInfoListByCode(page, size, startDate, endDate, fabricCode)
+    }
 }
