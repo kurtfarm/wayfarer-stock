@@ -72,6 +72,7 @@ class FabricInfoFacade(
             FabricInfoListResponse.of(
                 it,
                 getOrdererName(it.ordererId),
+                getCode(it.codeId),
             )
         }
         return PagingResult.from(page)
@@ -90,6 +91,7 @@ class FabricInfoFacade(
             FabricInfoListResponse.of(
                 it,
                 ordererName,
+                getCode(it.codeId),
             )
         }
         return PagingResult.from(page)
@@ -108,6 +110,7 @@ class FabricInfoFacade(
                 FabricInfoListResponse.of(
                     it,
                     getOrdererName(it.ordererId),
+                    getCode(it.codeId),
                 )
             }
 

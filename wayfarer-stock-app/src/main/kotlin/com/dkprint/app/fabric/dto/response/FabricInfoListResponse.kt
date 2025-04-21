@@ -7,6 +7,7 @@ import com.dkprint.app.fabric.domain.entity.value.UsageStatus
 data class FabricInfoListResponse(
     val id: Long,
     val fabricTypeName: String,
+    val fabricCode: String,
     val ordererName: String,
     val length: Double,
     val width: Long,
@@ -16,10 +17,11 @@ data class FabricInfoListResponse(
     val status: UsageStatus,
 ) {
     companion object {
-        fun of(fabricInfo: FabricInfo, ordererName: String): FabricInfoListResponse {
+        fun of(fabricInfo: FabricInfo, fabricCode: String, ordererName: String): FabricInfoListResponse {
             return FabricInfoListResponse(
                 id = fabricInfo.id,
                 fabricTypeName = fabricInfo.fabric.fabricTypeDetail,
+                fabricCode = fabricCode,
                 ordererName = ordererName,
                 length = fabricInfo.fabric.length,
                 width = fabricInfo.fabric.width,
