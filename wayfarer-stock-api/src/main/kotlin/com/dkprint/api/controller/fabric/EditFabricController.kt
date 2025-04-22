@@ -4,16 +4,19 @@ import com.dkprint.api.ApiPath
 import com.dkprint.app.core.common.web.response.ApiResponse
 import com.dkprint.app.fabric.application.FabricInfoFacade
 import com.dkprint.app.fabric.dto.request.FabricInfoRequest
+import com.dkprint.app.fabric.dto.request.FabricMultiDeleteRequest
+import com.dkprint.app.fabric.dto.request.FabricUsageStatusRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
-@Tag(name = "Fabric", description = "Edit Fabric Info API")
+@Tag(name = "Fabric (UPDATE & DELETE)", description = "Edit Fabric Info API")
 @RestController
 class EditFabricController(
     private val fabricInfoFacade: FabricInfoFacade,
@@ -44,4 +47,31 @@ class EditFabricController(
         fabricInfoFacade.deleteFabric(id)
         return ApiResponse.success(true)
     }
+
+    @Operation(
+        summary = "원단 다중 삭제",
+        description = "여러 개의 원단 정보를 한 번에 삭제한다."
+    )
+    @DeleteMapping(ApiPath.Fabric.DELETE_MULTI)
+    fun deleteMultipleFabrics(
+        @RequestBody request: FabricMultiDeleteRequest
+    ): ApiResponse<Boolean> {
+        fabricInfoFacade.deleteFabrics(request.ids)
+        return ApiResponse.success(true)
+    }
+
+
+    @Operation(
+        summary = "원단 상태 정보 변경",
+        description = "의뢰서/사양서에서 원단이 사용되는 경우 상태를 ACTIVE, 사용되지 않는 경우에는 INACTIVE로 변경"
+    )
+    @PatchMapping(ApiPath.Fabric.SET_USAGE_STATUS)
+    fun updateUsageStatus(
+        @PathVariable id: Long,
+        @RequestBody request: FabricUsageStatusRequest
+    ): ApiResponse<Boolean> {
+        fabricInfoFacade.updateUsageStatus(id, request.status)
+        return ApiResponse.success(true)
+    }
+
 }

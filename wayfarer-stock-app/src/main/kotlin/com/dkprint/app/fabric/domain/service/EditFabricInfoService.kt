@@ -1,6 +1,7 @@
 package com.dkprint.app.fabric.domain.service
 
 import com.dkprint.app.fabric.domain.entity.FabricInfo
+import com.dkprint.app.fabric.domain.entity.value.UsageStatus
 import com.dkprint.app.fabric.domain.repository.FabricInfoRepository
 import com.dkprint.app.fabric.dto.request.FabricInfoRequest
 import jakarta.transaction.Transactional
@@ -24,5 +25,15 @@ class EditFabricInfoService(
     @Transactional
     fun deleteFabricInfo(id: Long) {
         fabricInfoRepository.deleteById(id)
+    }
+
+    @Transactional
+    fun deleteMultipleFabricInfo(ids: List<Long>) {
+        fabricInfoRepository.deleteAllByIdInBatch(ids)
+    }
+
+    @Transactional
+    fun updateUsageStatus(fabricInfo: FabricInfo, status: UsageStatus) {
+        fabricInfo.status = status
     }
 }

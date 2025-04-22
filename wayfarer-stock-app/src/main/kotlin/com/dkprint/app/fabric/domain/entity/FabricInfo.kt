@@ -2,6 +2,7 @@ package com.dkprint.app.fabric.domain.entity
 
 import com.dkprint.app.core.AggregateRoot
 import com.dkprint.app.core.infrastructure.jpa.shared.BaseEntity
+import com.dkprint.app.fabric.domain.entity.value.UsageStatus
 import com.dkprint.app.fabric.dto.request.FabricInfoRequest
 import jakarta.persistence.Column
 import jakarta.persistence.Embedded
@@ -51,6 +52,9 @@ class FabricInfo(
 
     @Column(name = "comment", nullable = true)
     var comment: String?,
+
+    @Column(name = "status", nullable = true)
+    var status: UsageStatus = UsageStatus.INACTIVE,
 ) : BaseEntity() {
     companion object {
         fun of(fabricInfoRequest: FabricInfoRequest, ordererId: Long, customerId: Long, codeId: Long): FabricInfo {

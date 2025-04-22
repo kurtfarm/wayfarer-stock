@@ -9,5 +9,7 @@ object ApiPath {
         const val SEARCH_BY_TYPE = "/api/v1/fabric/search/type"
         const val EDIT = "/api/v1/fabric/{id}"
         const val DELETE = "/api/v1/fabric/{id}"
+        const val DELETE_MULTI = "/api/v1/fabrics"
+        const val SET_USAGE_STATUS = "/api/v1/fabric/{id}/usage-status"
     }
 }

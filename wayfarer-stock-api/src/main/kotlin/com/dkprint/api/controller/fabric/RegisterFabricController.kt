@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
-@Tag(name = "Fabric", description = "Register Fabric Info API")
+@Tag(name = "Fabric (CREATE)", description = "Register Fabric Info API")
 @RestController
 class RegisterFabricController(
     private val fabricInfoFacade: FabricInfoFacade,

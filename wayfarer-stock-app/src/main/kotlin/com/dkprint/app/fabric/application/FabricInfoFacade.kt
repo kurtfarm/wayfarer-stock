@@ -1,6 +1,7 @@
 package com.dkprint.app.fabric.application
 
 import com.dkprint.app.core.common.web.PagingResult
+import com.dkprint.app.fabric.domain.entity.value.UsageStatus
 import com.dkprint.app.fabric.domain.service.EditFabricInfoService
 import com.dkprint.app.fabric.domain.service.FabricCodeService
 import com.dkprint.app.fabric.domain.service.FabricInfoCountCacheService
@@ -44,6 +45,11 @@ class FabricInfoFacade(
 
     fun deleteFabric(id: Long) {
         editFabricInfoService.deleteFabricInfo(id);
+        fabricInfoCountCacheService.evictAllCountsCache()
+    }
+
+    fun deleteFabrics(ids: List<Long>) {
+        editFabricInfoService.deleteMultipleFabricInfo(ids)
         fabricInfoCountCacheService.evictAllCountsCache()
     }
 
@@ -104,6 +110,11 @@ class FabricInfoFacade(
             }
 
         return PagingResult.from(pageResult)
+    }
+
+    fun updateUsageStatus(id: Long, status: UsageStatus) {
+        val fabricInfo = readFabricInfoService.getFabricInfo(id)
+        editFabricInfoService.updateUsageStatus(fabricInfo, status)
     }
 
 
