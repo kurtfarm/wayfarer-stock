@@ -146,26 +146,26 @@ class FabricInfoFacade(
 
 
     private fun getOrdererId(ordererName: String): Long {
-        return 1L // TODO: orderSdk.findIdByOrdererName(ordererName).orElseThrow { BadRequestException("wayfarer-stock.not-exist-ordererName") }
+        return 1L // TODO: orderSdk.findIdByOrdererName(ordererName).orElseThrow { BadRequestException("wayfarer-stock.fabricg.not-exist-ordererName") }
     }
 
     private fun getCustomerId(customerName: String): Long {
-        return 1L // TODO: customerSdk.findIdByCustomerName(fabricInfoRequest.customerName).orElseThrow { BadRequestException("wayfarer-stock.not-exist-customerName") }
+        return 1L // TODO: customerSdk.findIdByCustomerName(fabricInfoRequest.customerName).orElseThrow { BadRequestException("wayfarer-stock.fabric.not-exist-customerName") }
     }
 
     private fun getCodeId(fabricCode: String): Long {
-        return 1L // TODO: codeSdk.createFabricCode(fabricCode).orElseThrow { BadRequestException("wayfarer-stock.not-valid-code") }
+        return 1L // TODO: codeSdk.createFabricCode(fabricCode).orElseThrow { BadRequestException("wayfarer-stock.fabric.not-valid-code") }
     }
 
     private fun getOrdererName(ordererId: Long): String {
-        return "발주처 1" // TODO: orderSdk.getOrdererNameById(ordererId).orElseThrow { BadRequestException("wayfarer-stock.not-exist-ordererId") }
+        return "발주처 1" // TODO: orderSdk.getOrdererNameById(ordererId).orElseThrow { BadRequestException("wayfarer-stock.fabric.not-exist-ordererId") }
     }
 
     private fun getCustomerName(customerId: Long): String {
-        return "고객사 1"// TODO: customerSdk.getCustomerNameById(customerId).orElseThrow { BadRequestException("wayfarer-stock.not-exist-customerId") }
+        return "고객사 1"// TODO: customerSdk.getCustomerNameById(customerId).orElseThrow { BadRequestException("wayfarer-stock.fabric.not-exist-customerId") }
     }
 
     private fun getCode(codeId: Long): String {
-        return "25010990022" // TODO: codeSdk.getCodeById(fabricInfo.codeId).orElseThrow { BadRequestException("wayfarer-stock.not-exist-codeId) }
+        return "25010990022" // TODO: codeSdk.getCodeById(fabricInfo.codeId).orElseThrow { BadRequestException("wayfarer-stock.fabric.not-exist-codeId) }
     }
 }
