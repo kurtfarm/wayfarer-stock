@@ -23,23 +23,25 @@ class FabricInfoFacade(
     private val fabricInfoCountCacheService: FabricInfoCountCacheService
 ) {
     fun registerFabric(fabricInfoRequest: FabricInfoRequest) {
+        val fabricCode = fabricCodeService.createFabricCode(fabricInfoRequest)
         registerFabricInfoService.createFabricInfo(
             fabricInfoRequest,
             getOrdererId(fabricInfoRequest.ordererName),
             getCustomerId(fabricInfoRequest.customerName),
-            getCodeId(fabricInfoRequest),
+            getCodeId(fabricCode),
         )
         fabricInfoCountCacheService.evictAllCountsCache()
     }
 
     fun updateFabric(id: Long, fabricInfoRequest: FabricInfoRequest) {
-        val fabricInfo = readFabricInfoService.getFabricInfo(id);
+        val fabricInfo = readFabricInfoService.getFabricInfo(id)
+        val fabricCode = fabricCodeService.createFabricCode(fabricInfoRequest)
         editFabricInfoService.updateFabricInfo(
             fabricInfo,
             fabricInfoRequest,
             getOrdererId(fabricInfoRequest.ordererName),
             getCustomerId(fabricInfoRequest.customerName),
-            getCodeId(fabricInfoRequest),
+            getCodeId(fabricCode),
         )
     }
 
@@ -70,6 +72,7 @@ class FabricInfoFacade(
             FabricInfoListResponse.of(
                 it,
                 getOrdererName(it.ordererId),
+                getCode(it.codeId),
             )
         }
         return PagingResult.from(page)
@@ -88,6 +91,7 @@ class FabricInfoFacade(
             FabricInfoListResponse.of(
                 it,
                 ordererName,
+                getCode(it.codeId),
             )
         }
         return PagingResult.from(page)
@@ -106,11 +110,34 @@ class FabricInfoFacade(
                 FabricInfoListResponse.of(
                     it,
                     getOrdererName(it.ordererId),
+                    getCode(it.codeId),
                 )
             }
 
         return PagingResult.from(pageResult)
     }
+
+    fun getFabricInfoListByCode(
+        page: Int,
+        size: Int,
+        startDate: LocalDate?,
+        endDate: LocalDate?,
+        fabricCode: String
+    ): PagingResult<FabricInfoListResponse> {
+        val pageRequest = PageRequest.of(page, size)
+        val codeId = getCodeId(fabricCode)
+        val pageResult =
+            readFabricInfoService.getListByFabricCode(startDate, endDate, codeId, pageRequest).map {
+                FabricInfoListResponse.of(
+                    it,
+                    getOrdererName(it.ordererId),
+                    fabricCode,
+                )
+            }
+
+        return PagingResult.from(pageResult)
+    }
+
 
     fun updateUsageStatus(id: Long, status: UsageStatus) {
         val fabricInfo = readFabricInfoService.getFabricInfo(id)
@@ -119,27 +146,26 @@ class FabricInfoFacade(
 
 
     private fun getOrdererId(ordererName: String): Long {
-        return 1L // TODO: orderSdk.findIdByOrdererName(ordererName).orElseThrow { BadRequestException("wayfarer-stock.not-exist-ordererName") }
+        return 1L // TODO: orderSdk.findIdByOrdererName(ordererName).orElseThrow { BadRequestException("wayfarer-stock.fabricg.not-exist-ordererName") }
     }
 
     private fun getCustomerId(customerName: String): Long {
-        return 1L // TODO: customerSdk.findIdByCustomerName(fabricInfoRequest.customerName).orElseThrow { BadRequestException("wayfarer-stock.not-exist-customerName") }
+        return 1L // TODO: customerSdk.findIdByCustomerName(fabricInfoRequest.customerName).orElseThrow { BadRequestException("wayfarer-stock.fabric.not-exist-customerName") }
     }
 
-    private fun getCodeId(fabricInfoRequest: FabricInfoRequest): Long {
-        val fabricCode = fabricCodeService.createFabricCode(fabricInfoRequest)
-        return 1L // TODO: codeSdk.createFabricCode(fabricCode).orElseThrow { BadRequestException("wayfarer-stock.not-valid-code") }
+    private fun getCodeId(fabricCode: String): Long {
+        return 1L // TODO: codeSdk.createFabricCode(fabricCode).orElseThrow { BadRequestException("wayfarer-stock.fabric.not-valid-code") }
     }
 
     private fun getOrdererName(ordererId: Long): String {
-        return "발주처 1" // TODO: orderSdk.getOrdererNameById(ordererId).orElseThrow { BadRequestException("wayfarer-stock.not-exist-ordererId") }
+        return "발주처 1" // TODO: orderSdk.getOrdererNameById(ordererId).orElseThrow { BadRequestException("wayfarer-stock.fabric.not-exist-ordererId") }
     }
 
     private fun getCustomerName(customerId: Long): String {
-        return "고객사 1"// TODO: customerSdk.getCustomerNameById(customerId).orElseThrow { BadRequestException("wayfarer-stock.not-exist-customerId") }
+        return "고객사 1"// TODO: customerSdk.getCustomerNameById(customerId).orElseThrow { BadRequestException("wayfarer-stock.fabric.not-exist-customerId") }
     }
 
     private fun getCode(codeId: Long): String {
-        return "25010990022" // TODO: codeSdk.getCodeById(fabricInfo.codeId).orElseThrow { BadRequestException("wayfarer-stock.not-exist-codeId) }
+        return "25010990022" // TODO: codeSdk.getCodeById(fabricInfo.codeId).orElseThrow { BadRequestException("wayfarer-stock.fabric.not-exist-codeId) }
     }
 }
