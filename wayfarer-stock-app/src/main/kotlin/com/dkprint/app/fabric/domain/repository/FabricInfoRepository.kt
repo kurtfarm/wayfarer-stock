@@ -62,32 +62,4 @@ interface FabricInfoRepository : JpaRepository<FabricInfo, Long> {
 
     @Query("SELECT COUNT(f) FROM FabricInfo f")
     fun countAll(): Long
-
-    @Query(
-        """
-    SELECT COUNT(f) FROM FabricInfo f
-    WHERE (:startDate IS NULL OR f.registrationDate >= :startDate)
-    AND (:endDate IS NULL OR f.registrationDate <= :endDate)
-    AND f.ordererId = :ordererId
-    """
-    )
-    fun countByOrderer(
-        @Param("startDate") startDate: LocalDate?,
-        @Param("endDate") endDate: LocalDate?,
-        @Param("ordererId") ordererId: Long
-    ): Long
-
-    @Query(
-        """
-    SELECT COUNT(f) FROM FabricInfo f
-    WHERE (:startDate IS NULL OR f.registrationDate >= :startDate)
-    AND (:endDate IS NULL OR f.registrationDate <= :endDate)
-    AND f.fabric.fabricTypeDetail LIKE CONCAT(:fabricTypeName, '%')
-    """
-    )
-    fun countByType(
-        @Param("startDate") startDate: LocalDate?,
-        @Param("endDate") endDate: LocalDate?,
-        @Param("fabricTypeName") fabricTypeName: String,
-    ): Long
 }
