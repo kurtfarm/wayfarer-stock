@@ -51,7 +51,7 @@ class Copperplate(
     var platePositions: List<PlatePosition> = mutableListOf(),
 
     @Column(name = "plate_position_comment")
-    var doseComment: String? = null,
+    var platePositionComment: String? = null,
 
     @Column(name = "location", nullable = false)
     var location: String,
