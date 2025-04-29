@@ -1,9 +1,13 @@
 package com.dkprint.app.copperplate.domain.entity.value
 
+import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 
 @Embeddable
-class PlatePosition(
-    val index: Int,       // 0 ~ 9
+data class PlatePosition(
+    @Column(name = "position_index")
+    val positionIndex: Int,
+
+    @Column(name = "color")
     val color: String?
 )
