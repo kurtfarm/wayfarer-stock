@@ -11,16 +11,16 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import jakarta.persistence.OneToMany
+import jakarta.persistence.FetchType
 import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.SQLRestriction
 
 @AggregateRoot
 @Entity
-@SQLDelete(sql = "UPDATE fabric_info SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE copperplate SET is_deleted = true WHERE id = ?")
 @SQLRestriction("is_deleted = false")
-@Table(
-    name = "copperplate",
-)
+@Table(name = "copperplate")
 class Copperplate(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
