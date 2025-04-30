@@ -1,5 +1,6 @@
 package com.dkprint.app.copperplate.domain.entity
 
+import com.dkprint.app.core.infrastructure.jpa.shared.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -31,7 +32,7 @@ class CopperplateHistory(
     @Column(name = "vendor_id", nullable = false)
     var vendorId: Long,
 
-    @Column(name = "comment")
+    @Column(name = "comment", length = 100)
     val comment: String?,
-){
+): BaseEntity() {
 }

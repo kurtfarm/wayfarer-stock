@@ -72,7 +72,7 @@ class Copperplate(
     @OneToMany(mappedBy = "copperPlate", fetch = FetchType.LAZY)
     var histories: List<CopperplateHistory> = mutableListOf(),
 
-    @Column(name = "comment")
+    @Column(name = "comment", length = 100)
     var comment: String? = null,
 ) : BaseEntity() {
 }
